@@ -1,7 +1,7 @@
 Name:           gzip
 Version:        1.5
 Release:        1
-License:        GPL-3.0
+License:        GPL-3.0+
 Summary:        The GNU data compression program
 Url:            http://www.gzip.org/
 Group:          Base/Tools
