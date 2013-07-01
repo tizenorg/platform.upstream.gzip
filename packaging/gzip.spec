@@ -6,6 +6,7 @@ Summary:        The GNU data compression program
 Url:            http://www.gzip.org/
 Group:          Base/Tools
 Source0:        ftp://alpha.gnu.org/gnu/gzip/gzip-%{version}.tar.xz
+Source1001: 	gzip.manifest
 Requires:       /usr/bin/mktemp
 
 %description
@@ -18,6 +19,7 @@ very commonly used data compression program.
 
 %prep
 %setup -q
+cp %{SOURCE1001} .
 
 %build
 %configure \
@@ -31,6 +33,7 @@ make %{?_smp_mflags}
 %docs_package
 
 %files
+%manifest %{name}.manifest
 %defattr(-,root,root,-)
 %license COPYING
 %{_bindir}/gzip
