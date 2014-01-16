@@ -1,11 +1,11 @@
 Name:           gzip
-Version:        1.5
+Version:        1.6
 Release:        1
 License:        GPL-3.0+
 Summary:        The GNU data compression program
-Url:            http://www.gzip.org/
-Group:          Base/Tools
-Source0:        ftp://alpha.gnu.org/gnu/gzip/gzip-%{version}.tar.xz
+Url:            http://www.gnu.org/software/gzip/
+Group:          Base/Compression
+Source0:        %{name}-%{version}.tar.xz
 Source1001: 	gzip.manifest
 Requires:       /usr/bin/mktemp
 
