@@ -1,5 +1,5 @@
 # Customize maint.mk                           -*- makefile -*-
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
+# Copyright (C) 2003-2013 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ bootstrap-tools = autoconf,automake,gnulib
 # Now that we have better tests, make this the default.
 export VERBOSE = yes
 
-old_NEWS_hash = 4e76bc5d3e489bb63342e85762172502
+old_NEWS_hash = cfb389be1b246e15a87a2272ad3736d7
 
 sc_obs_header_regex = \
   \<(STDC_HEADERS|HAVE_(LIMITS|STRING|UNISTD|STDLIB)_H)\>
@@ -82,4 +82,4 @@ export _gl_TS_dir = .
 # Tell the tight_scope rule that these variables are deliberately "extern".
 export _gl_TS_unmarked_extern_vars = \
   block_start d_buf inbuf outbuf prev read_buf strstart window \
-  match_start prev_length max_chain_length good_match
+  match_start prev_length max_chain_length good_match nice_match

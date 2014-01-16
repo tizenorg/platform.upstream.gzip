@@ -1,6 +1,6 @@
 # Make gzip/lib				-*-Makefile-*-
 
-# Copyright (C) 2006, 2009-2012 Free Software Foundation, Inc.
+# Copyright (C) 2006, 2009-2013 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ include gnulib.mk
 
 libgzip_a_LIBADD += $(LIBOBJS)
 libgzip_a_DEPENDENCIES += $(LIBOBJS)
-AM_CFLAGS += $(WARN_CFLAGS) $(WERROR_CFLAGS)
+AM_CFLAGS += $(GNULIB_WARN_CFLAGS) $(WERROR_CFLAGS)
 
 match.$(OBJEXT): match.c
 	$(AM_V_GEN)cp $(srcdir)/match.c _match.S

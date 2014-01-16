@@ -1,5 +1,29 @@
 GNU gzip NEWS                                    -*- outline -*-
 
+* Noteworthy changes in release 1.6 (2013-06-09) [stable]
+
+** New features
+
+  gzip now accepts the --keep (-k) option, for consistency with tools
+  like xz, lzip and bzip2.  With this option, gzip no longer removes
+  named input files when compressing or decompressing.
+
+** Bug fixes
+
+  gzip -d no longer malfunctions with certain invalid data in 'pack' format.
+  [bug introduced in gzip-0.8]
+
+  When overwriting, gzip no longer acts as if you typed "y" when you type "n",
+  on some platforms when compiled with optimization.
+  [bug introduced in gzip-1.3.6]
+
+  zgrep no longer malfunctions with a multi-digit context option like -15.
+  Now, it passes that option to grep (equivalent to -C15) just as it does
+  for single-digit options. [bug introduced in gzip-1.3.12]
+
+  zmore now acts more like 'more', and is more portable to POSIXish hosts.
+
+
 * Noteworthy changes in release 1.5 (2012-06-17) [stable]
 
 ** Bug fixes
@@ -233,7 +257,7 @@ Major changes from 1.1.2 to 1.2
 * With --force, let zcat pass non gzip'ed data unchanged (zcat == cat)
 * Added the zgrep shell script.
 * Made sub.c useful for 16 bit sound, 24 bit images, etc..
-* Supress warnings about suffix for gunzip -r, except with --verbose.
+* Suppress warnings about suffix for gunzip -r, except with --verbose.
 * On MSDOS, use .gz extension when possible (files without extension)
 * Moved the sample programs to a subdirectory sample.
 * Added a "Special targets" section in INSTALL.
@@ -406,7 +430,7 @@ Major changes form 0.5 to 0.6:
 
 ========================================================================
 
-Copyright (C) 1999, 2001-2002, 2006-2007, 2009-2012 Free Software Foundation,
+Copyright (C) 1999, 2001-2002, 2006-2007, 2009-2013 Free Software Foundation,
 Inc.
 Copyright (C) 1992, 1993 Jean-loup Gailly
 

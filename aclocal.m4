@@ -1,6 +1,6 @@
-# generated automatically by aclocal 1.12a -*- Autoconf -*-
+# generated automatically by aclocal 1.99a -*- Autoconf -*-
 
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -11,471 +11,20 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+m4_ifndef([AC_CONFIG_MACRO_DIRS], [m4_defun([_AM_CONFIG_MACRO_DIRS], [])m4_defun([AC_CONFIG_MACRO_DIRS], [_AM_CONFIG_MACRO_DIRS($@)])])
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
-m4_if(m4_defn([AC_AUTOCONF_VERSION]), [2.69.4-560f],,
-[m4_warning([this file was generated for autoconf 2.69.4-560f.
+m4_if(m4_defn([AC_AUTOCONF_VERSION]), [2.69.97-b1aba91],,
+[m4_warning([this file was generated for autoconf 2.69.97-b1aba91.
 You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
 
-# po.m4 serial 17 (gettext-0.18)
-dnl Copyright (C) 1995-2010 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
-dnl
-dnl This file can can be used in projects which are not available under
-dnl the GNU General Public License or the GNU Library General Public
-dnl License but which still want to provide support for the GNU gettext
-dnl functionality.
-dnl Please note that the actual code of the GNU gettext library is covered
-dnl by the GNU Library General Public License, and the rest of the GNU
-dnl gettext package package is covered by the GNU General Public License.
-dnl They are *not* in the public domain.
-
-dnl Authors:
-dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
-dnl   Bruno Haible <haible@clisp.cons.org>, 2000-2003.
-
-AC_PREREQ([2.50])
-
-dnl Checks for all prerequisites of the po subdirectory.
-AC_DEFUN([AM_PO_SUBDIRS],
-[
-  AC_REQUIRE([AC_PROG_MAKE_SET])dnl
-  AC_REQUIRE([AC_PROG_INSTALL])dnl
-  AC_REQUIRE([AM_PROG_MKDIR_P])dnl defined by automake
-  AC_REQUIRE([AM_NLS])dnl
-
-  dnl Release version of the gettext macros. This is used to ensure that
-  dnl the gettext macros and po/Makefile.in.in are in sync.
-  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
-
-  dnl Perform the following tests also if --disable-nls has been given,
-  dnl because they are needed for "make dist" to work.
-
-  dnl Search for GNU msgfmt in the PATH.
-  dnl The first test excludes Solaris msgfmt and early GNU msgfmt versions.
-  dnl The second test excludes FreeBSD msgfmt.
-  AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
-    [$ac_dir/$ac_word --statistics /dev/null >&]AS_MESSAGE_LOG_FD[ 2>&1 &&
-     (if $ac_dir/$ac_word --statistics /dev/null 2>&1 >/dev/null | grep usage >/dev/null; then exit 1; else exit 0; fi)],
-    :)
-  AC_PATH_PROG([GMSGFMT], [gmsgfmt], [$MSGFMT])
-
-  dnl Test whether it is GNU msgfmt >= 0.15.
-changequote(,)dnl
-  case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
-    *) MSGFMT_015=$MSGFMT ;;
-  esac
-changequote([,])dnl
-  AC_SUBST([MSGFMT_015])
-changequote(,)dnl
-  case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
-    *) GMSGFMT_015=$GMSGFMT ;;
-  esac
-changequote([,])dnl
-  AC_SUBST([GMSGFMT_015])
-
-  dnl Search for GNU xgettext 0.12 or newer in the PATH.
-  dnl The first test excludes Solaris xgettext and early GNU xgettext versions.
-  dnl The second test excludes FreeBSD xgettext.
-  AM_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
-    [$ac_dir/$ac_word --omit-header --copyright-holder= --msgid-bugs-address= /dev/null >&]AS_MESSAGE_LOG_FD[ 2>&1 &&
-     (if $ac_dir/$ac_word --omit-header --copyright-holder= --msgid-bugs-address= /dev/null 2>&1 >/dev/null | grep usage >/dev/null; then exit 1; else exit 0; fi)],
-    :)
-  dnl Remove leftover from FreeBSD xgettext call.
-  rm -f messages.po
-
-  dnl Test whether it is GNU xgettext >= 0.15.
-changequote(,)dnl
-  case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
-    *) XGETTEXT_015=$XGETTEXT ;;
-  esac
-changequote([,])dnl
-  AC_SUBST([XGETTEXT_015])
-
-  dnl Search for GNU msgmerge 0.11 or newer in the PATH.
-  AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
-    [$ac_dir/$ac_word --update -q /dev/null /dev/null >&]AS_MESSAGE_LOG_FD[ 2>&1], :)
-
-  dnl Installation directories.
-  dnl Autoconf >= 2.60 defines localedir. For older versions of autoconf, we
-  dnl have to define it here, so that it can be used in po/Makefile.
-  test -n "$localedir" || localedir='${datadir}/locale'
-  AC_SUBST([localedir])
-
-  dnl Support for AM_XGETTEXT_OPTION.
-  test -n "${XGETTEXT_EXTRA_OPTIONS+set}" || XGETTEXT_EXTRA_OPTIONS=
-  AC_SUBST([XGETTEXT_EXTRA_OPTIONS])
-
-  AC_CONFIG_COMMANDS([po-directories], [[
-    for ac_file in $CONFIG_FILES; do
-      # Support "outfile[:infile[:infile...]]"
-      case "$ac_file" in
-        *:*) ac_file=`echo "$ac_file"|sed 's%:.*%%'` ;;
-      esac
-      # PO directories have a Makefile.in generated from Makefile.in.in.
-      case "$ac_file" in */Makefile.in)
-        # Adjust a relative srcdir.
-        ac_dir=`echo "$ac_file"|sed 's%/[^/][^/]*$%%'`
-        ac_dir_suffix="/`echo "$ac_dir"|sed 's%^\./%%'`"
-        ac_dots=`echo "$ac_dir_suffix"|sed 's%/[^/]*%../%g'`
-        # In autoconf-2.13 it is called $ac_given_srcdir.
-        # In autoconf-2.50 it is called $srcdir.
-        test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
-        case "$ac_given_srcdir" in
-          .)  top_srcdir=`echo $ac_dots|sed 's%/$%%'` ;;
-          /*) top_srcdir="$ac_given_srcdir" ;;
-          *)  top_srcdir="$ac_dots$ac_given_srcdir" ;;
-        esac
-        # Treat a directory as a PO directory if and only if it has a
-        # POTFILES.in file. This allows packages to have multiple PO
-        # directories under different names or in different locations.
-        if test -f "$ac_given_srcdir/$ac_dir/POTFILES.in"; then
-          rm -f "$ac_dir/POTFILES"
-          test -n "$as_me" && echo "$as_me: creating $ac_dir/POTFILES" || echo "creating $ac_dir/POTFILES"
-          cat "$ac_given_srcdir/$ac_dir/POTFILES.in" | sed -e "/^#/d" -e "/^[ 	]*\$/d" -e "s,.*,     $top_srcdir/& \\\\," | sed -e "\$s/\(.*\) \\\\/\1/" > "$ac_dir/POTFILES"
-          POMAKEFILEDEPS="POTFILES.in"
-          # ALL_LINGUAS, POFILES, UPDATEPOFILES, DUMMYPOFILES, GMOFILES depend
-          # on $ac_dir but don't depend on user-specified configuration
-          # parameters.
-          if test -f "$ac_given_srcdir/$ac_dir/LINGUAS"; then
-            # The LINGUAS file contains the set of available languages.
-            if test -n "$OBSOLETE_ALL_LINGUAS"; then
-              test -n "$as_me" && echo "$as_me: setting ALL_LINGUAS in configure.in is obsolete" || echo "setting ALL_LINGUAS in configure.in is obsolete"
-            fi
-            ALL_LINGUAS_=`sed -e "/^#/d" -e "s/#.*//" "$ac_given_srcdir/$ac_dir/LINGUAS"`
-            # Hide the ALL_LINGUAS assigment from automake < 1.5.
-            eval 'ALL_LINGUAS''=$ALL_LINGUAS_'
-            POMAKEFILEDEPS="$POMAKEFILEDEPS LINGUAS"
-          else
-            # The set of available languages was given in configure.in.
-            # Hide the ALL_LINGUAS assigment from automake < 1.5.
-            eval 'ALL_LINGUAS''=$OBSOLETE_ALL_LINGUAS'
-          fi
-          # Compute POFILES
-          # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).po)
-          # Compute UPDATEPOFILES
-          # as      $(foreach lang, $(ALL_LINGUAS), $(lang).po-update)
-          # Compute DUMMYPOFILES
-          # as      $(foreach lang, $(ALL_LINGUAS), $(lang).nop)
-          # Compute GMOFILES
-          # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).gmo)
-          case "$ac_given_srcdir" in
-            .) srcdirpre= ;;
-            *) srcdirpre='$(srcdir)/' ;;
-          esac
-          POFILES=
-          UPDATEPOFILES=
-          DUMMYPOFILES=
-          GMOFILES=
-          for lang in $ALL_LINGUAS; do
-            POFILES="$POFILES $srcdirpre$lang.po"
-            UPDATEPOFILES="$UPDATEPOFILES $lang.po-update"
-            DUMMYPOFILES="$DUMMYPOFILES $lang.nop"
-            GMOFILES="$GMOFILES $srcdirpre$lang.gmo"
-          done
-          # CATALOGS depends on both $ac_dir and the user's LINGUAS
-          # environment variable.
-          INST_LINGUAS=
-          if test -n "$ALL_LINGUAS"; then
-            for presentlang in $ALL_LINGUAS; do
-              useit=no
-              if test "%UNSET%" != "$LINGUAS"; then
-                desiredlanguages="$LINGUAS"
-              else
-                desiredlanguages="$ALL_LINGUAS"
-              fi
-              for desiredlang in $desiredlanguages; do
-                # Use the presentlang catalog if desiredlang is
-                #   a. equal to presentlang, or
-                #   b. a variant of presentlang (because in this case,
-                #      presentlang can be used as a fallback for messages
-                #      which are not translated in the desiredlang catalog).
-                case "$desiredlang" in
-                  "$presentlang"*) useit=yes;;
-                esac
-              done
-              if test $useit = yes; then
-                INST_LINGUAS="$INST_LINGUAS $presentlang"
-              fi
-            done
-          fi
-          CATALOGS=
-          if test -n "$INST_LINGUAS"; then
-            for lang in $INST_LINGUAS; do
-              CATALOGS="$CATALOGS $lang.gmo"
-            done
-          fi
-          test -n "$as_me" && echo "$as_me: creating $ac_dir/Makefile" || echo "creating $ac_dir/Makefile"
-          sed -e "/^POTFILES =/r $ac_dir/POTFILES" -e "/^# Makevars/r $ac_given_srcdir/$ac_dir/Makevars" -e "s|@POFILES@|$POFILES|g" -e "s|@UPDATEPOFILES@|$UPDATEPOFILES|g" -e "s|@DUMMYPOFILES@|$DUMMYPOFILES|g" -e "s|@GMOFILES@|$GMOFILES|g" -e "s|@CATALOGS@|$CATALOGS|g" -e "s|@POMAKEFILEDEPS@|$POMAKEFILEDEPS|g" "$ac_dir/Makefile.in" > "$ac_dir/Makefile"
-          for f in "$ac_given_srcdir/$ac_dir"/Rules-*; do
-            if test -f "$f"; then
-              case "$f" in
-                *.orig | *.bak | *~) ;;
-                *) cat "$f" >> "$ac_dir/Makefile" ;;
-              esac
-            fi
-          done
-        fi
-        ;;
-      esac
-    done]],
-   [# Capture the value of obsolete ALL_LINGUAS because we need it to compute
-    # POFILES, UPDATEPOFILES, DUMMYPOFILES, GMOFILES, CATALOGS. But hide it
-    # from automake < 1.5.
-    eval 'OBSOLETE_ALL_LINGUAS''="$ALL_LINGUAS"'
-    # Capture the value of LINGUAS because we need it to compute CATALOGS.
-    LINGUAS="${LINGUAS-%UNSET%}"
-   ])
-])
-
-dnl Postprocesses a Makefile in a directory containing PO files.
-AC_DEFUN([AM_POSTPROCESS_PO_MAKEFILE],
-[
-  # When this code is run, in config.status, two variables have already been
-  # set:
-  # - OBSOLETE_ALL_LINGUAS is the value of LINGUAS set in configure.in,
-  # - LINGUAS is the value of the environment variable LINGUAS at configure
-  #   time.
-
-changequote(,)dnl
-  # Adjust a relative srcdir.
-  ac_dir=`echo "$ac_file"|sed 's%/[^/][^/]*$%%'`
-  ac_dir_suffix="/`echo "$ac_dir"|sed 's%^\./%%'`"
-  ac_dots=`echo "$ac_dir_suffix"|sed 's%/[^/]*%../%g'`
-  # In autoconf-2.13 it is called $ac_given_srcdir.
-  # In autoconf-2.50 it is called $srcdir.
-  test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
-  case "$ac_given_srcdir" in
-    .)  top_srcdir=`echo $ac_dots|sed 's%/$%%'` ;;
-    /*) top_srcdir="$ac_given_srcdir" ;;
-    *)  top_srcdir="$ac_dots$ac_given_srcdir" ;;
-  esac
-
-  # Find a way to echo strings without interpreting backslash.
-  if test "X`(echo '\t') 2>/dev/null`" = 'X\t'; then
-    gt_echo='echo'
-  else
-    if test "X`(printf '%s\n' '\t') 2>/dev/null`" = 'X\t'; then
-      gt_echo='printf %s\n'
-    else
-      echo_func () {
-        cat <<EOT
-$*
-EOT
-      }
-      gt_echo='echo_func'
-    fi
-  fi
-
-  # A sed script that extracts the value of VARIABLE from a Makefile.
-  sed_x_variable='
-# Test if the hold space is empty.
-x
-s/P/P/
-x
-ta
-# Yes it was empty. Look if we have the expected variable definition.
-/^[	 ]*VARIABLE[	 ]*=/{
-  # Seen the first line of the variable definition.
-  s/^[	 ]*VARIABLE[	 ]*=//
-  ba
-}
-bd
-:a
-# Here we are processing a line from the variable definition.
-# Remove comment, more precisely replace it with a space.
-s/#.*$/ /
-# See if the line ends in a backslash.
-tb
-:b
-s/\\$//
-# Print the line, without the trailing backslash.
-p
-tc
-# There was no trailing backslash. The end of the variable definition is
-# reached. Clear the hold space.
-s/^.*$//
-x
-bd
-:c
-# A trailing backslash means that the variable definition continues in the
-# next line. Put a nonempty string into the hold space to indicate this.
-s/^.*$/P/
-x
-:d
-'
-changequote([,])dnl
-
-  # Set POTFILES to the value of the Makefile variable POTFILES.
-  sed_x_POTFILES=`$gt_echo "$sed_x_variable" | sed -e '/^ *#/d' -e 's/VARIABLE/POTFILES/g'`
-  POTFILES=`sed -n -e "$sed_x_POTFILES" < "$ac_file"`
-  # Compute POTFILES_DEPS as
-  #   $(foreach file, $(POTFILES), $(top_srcdir)/$(file))
-  POTFILES_DEPS=
-  for file in $POTFILES; do
-    POTFILES_DEPS="$POTFILES_DEPS "'$(top_srcdir)/'"$file"
-  done
-  POMAKEFILEDEPS=""
-
-  if test -n "$OBSOLETE_ALL_LINGUAS"; then
-    test -n "$as_me" && echo "$as_me: setting ALL_LINGUAS in configure.in is obsolete" || echo "setting ALL_LINGUAS in configure.in is obsolete"
-  fi
-  if test -f "$ac_given_srcdir/$ac_dir/LINGUAS"; then
-    # The LINGUAS file contains the set of available languages.
-    ALL_LINGUAS_=`sed -e "/^#/d" -e "s/#.*//" "$ac_given_srcdir/$ac_dir/LINGUAS"`
-    POMAKEFILEDEPS="$POMAKEFILEDEPS LINGUAS"
-  else
-    # Set ALL_LINGUAS to the value of the Makefile variable LINGUAS.
-    sed_x_LINGUAS=`$gt_echo "$sed_x_variable" | sed -e '/^ *#/d' -e 's/VARIABLE/LINGUAS/g'`
-    ALL_LINGUAS_=`sed -n -e "$sed_x_LINGUAS" < "$ac_file"`
-  fi
-  # Hide the ALL_LINGUAS assigment from automake < 1.5.
-  eval 'ALL_LINGUAS''=$ALL_LINGUAS_'
-  # Compute POFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).po)
-  # Compute UPDATEPOFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(lang).po-update)
-  # Compute DUMMYPOFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(lang).nop)
-  # Compute GMOFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).gmo)
-  # Compute PROPERTIESFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(top_srcdir)/$(DOMAIN)_$(lang).properties)
-  # Compute CLASSFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(top_srcdir)/$(DOMAIN)_$(lang).class)
-  # Compute QMFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).qm)
-  # Compute MSGFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(frob $(lang)).msg)
-  # Compute RESOURCESDLLFILES
-  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(frob $(lang))/$(DOMAIN).resources.dll)
-  case "$ac_given_srcdir" in
-    .) srcdirpre= ;;
-    *) srcdirpre='$(srcdir)/' ;;
-  esac
-  POFILES=
-  UPDATEPOFILES=
-  DUMMYPOFILES=
-  GMOFILES=
-  PROPERTIESFILES=
-  CLASSFILES=
-  QMFILES=
-  MSGFILES=
-  RESOURCESDLLFILES=
-  for lang in $ALL_LINGUAS; do
-    POFILES="$POFILES $srcdirpre$lang.po"
-    UPDATEPOFILES="$UPDATEPOFILES $lang.po-update"
-    DUMMYPOFILES="$DUMMYPOFILES $lang.nop"
-    GMOFILES="$GMOFILES $srcdirpre$lang.gmo"
-    PROPERTIESFILES="$PROPERTIESFILES \$(top_srcdir)/\$(DOMAIN)_$lang.properties"
-    CLASSFILES="$CLASSFILES \$(top_srcdir)/\$(DOMAIN)_$lang.class"
-    QMFILES="$QMFILES $srcdirpre$lang.qm"
-    frobbedlang=`echo $lang | sed -e 's/\..*$//' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
-    MSGFILES="$MSGFILES $srcdirpre$frobbedlang.msg"
-    frobbedlang=`echo $lang | sed -e 's/_/-/g' -e 's/^sr-CS/sr-SP/' -e 's/@latin$/-Latn/' -e 's/@cyrillic$/-Cyrl/' -e 's/^sr-SP$/sr-SP-Latn/' -e 's/^uz-UZ$/uz-UZ-Latn/'`
-    RESOURCESDLLFILES="$RESOURCESDLLFILES $srcdirpre$frobbedlang/\$(DOMAIN).resources.dll"
-  done
-  # CATALOGS depends on both $ac_dir and the user's LINGUAS
-  # environment variable.
-  INST_LINGUAS=
-  if test -n "$ALL_LINGUAS"; then
-    for presentlang in $ALL_LINGUAS; do
-      useit=no
-      if test "%UNSET%" != "$LINGUAS"; then
-        desiredlanguages="$LINGUAS"
-      else
-        desiredlanguages="$ALL_LINGUAS"
-      fi
-      for desiredlang in $desiredlanguages; do
-        # Use the presentlang catalog if desiredlang is
-        #   a. equal to presentlang, or
-        #   b. a variant of presentlang (because in this case,
-        #      presentlang can be used as a fallback for messages
-        #      which are not translated in the desiredlang catalog).
-        case "$desiredlang" in
-          "$presentlang"*) useit=yes;;
-        esac
-      done
-      if test $useit = yes; then
-        INST_LINGUAS="$INST_LINGUAS $presentlang"
-      fi
-    done
-  fi
-  CATALOGS=
-  JAVACATALOGS=
-  QTCATALOGS=
-  TCLCATALOGS=
-  CSHARPCATALOGS=
-  if test -n "$INST_LINGUAS"; then
-    for lang in $INST_LINGUAS; do
-      CATALOGS="$CATALOGS $lang.gmo"
-      JAVACATALOGS="$JAVACATALOGS \$(DOMAIN)_$lang.properties"
-      QTCATALOGS="$QTCATALOGS $lang.qm"
-      frobbedlang=`echo $lang | sed -e 's/\..*$//' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
-      TCLCATALOGS="$TCLCATALOGS $frobbedlang.msg"
-      frobbedlang=`echo $lang | sed -e 's/_/-/g' -e 's/^sr-CS/sr-SP/' -e 's/@latin$/-Latn/' -e 's/@cyrillic$/-Cyrl/' -e 's/^sr-SP$/sr-SP-Latn/' -e 's/^uz-UZ$/uz-UZ-Latn/'`
-      CSHARPCATALOGS="$CSHARPCATALOGS $frobbedlang/\$(DOMAIN).resources.dll"
-    done
-  fi
-
-  sed -e "s|@POTFILES_DEPS@|$POTFILES_DEPS|g" -e "s|@POFILES@|$POFILES|g" -e "s|@UPDATEPOFILES@|$UPDATEPOFILES|g" -e "s|@DUMMYPOFILES@|$DUMMYPOFILES|g" -e "s|@GMOFILES@|$GMOFILES|g" -e "s|@PROPERTIESFILES@|$PROPERTIESFILES|g" -e "s|@CLASSFILES@|$CLASSFILES|g" -e "s|@QMFILES@|$QMFILES|g" -e "s|@MSGFILES@|$MSGFILES|g" -e "s|@RESOURCESDLLFILES@|$RESOURCESDLLFILES|g" -e "s|@CATALOGS@|$CATALOGS|g" -e "s|@JAVACATALOGS@|$JAVACATALOGS|g" -e "s|@QTCATALOGS@|$QTCATALOGS|g" -e "s|@TCLCATALOGS@|$TCLCATALOGS|g" -e "s|@CSHARPCATALOGS@|$CSHARPCATALOGS|g" -e 's,^#distdir:,distdir:,' < "$ac_file" > "$ac_file.tmp"
-  if grep -l '@TCLCATALOGS@' "$ac_file" > /dev/null; then
-    # Add dependencies that cannot be formulated as a simple suffix rule.
-    for lang in $ALL_LINGUAS; do
-      frobbedlang=`echo $lang | sed -e 's/\..*$//' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
-      cat >> "$ac_file.tmp" <<EOF
-$frobbedlang.msg: $lang.po
-	@echo "\$(MSGFMT) -c --tcl -d \$(srcdir) -l $lang $srcdirpre$lang.po"; \
-	\$(MSGFMT) -c --tcl -d "\$(srcdir)" -l $lang $srcdirpre$lang.po || { rm -f "\$(srcdir)/$frobbedlang.msg"; exit 1; }
-EOF
-    done
-  fi
-  if grep -l '@CSHARPCATALOGS@' "$ac_file" > /dev/null; then
-    # Add dependencies that cannot be formulated as a simple suffix rule.
-    for lang in $ALL_LINGUAS; do
-      frobbedlang=`echo $lang | sed -e 's/_/-/g' -e 's/^sr-CS/sr-SP/' -e 's/@latin$/-Latn/' -e 's/@cyrillic$/-Cyrl/' -e 's/^sr-SP$/sr-SP-Latn/' -e 's/^uz-UZ$/uz-UZ-Latn/'`
-      cat >> "$ac_file.tmp" <<EOF
-$frobbedlang/\$(DOMAIN).resources.dll: $lang.po
-	@echo "\$(MSGFMT) -c --csharp -d \$(srcdir) -l $lang $srcdirpre$lang.po -r \$(DOMAIN)"; \
-	\$(MSGFMT) -c --csharp -d "\$(srcdir)" -l $lang $srcdirpre$lang.po -r "\$(DOMAIN)" || { rm -f "\$(srcdir)/$frobbedlang.msg"; exit 1; }
-EOF
-    done
-  fi
-  if test -n "$POMAKEFILEDEPS"; then
-    cat >> "$ac_file.tmp" <<EOF
-Makefile: $POMAKEFILEDEPS
-EOF
-  fi
-  mv "$ac_file.tmp" "$ac_file"
-])
-
-dnl Initializes the accumulator used by AM_XGETTEXT_OPTION.
-AC_DEFUN([AM_XGETTEXT_OPTION_INIT],
-[
-  XGETTEXT_EXTRA_OPTIONS=
-])
-
-dnl Registers an option to be passed to xgettext in the po subdirectory.
-AC_DEFUN([AM_XGETTEXT_OPTION],
-[
-  AC_REQUIRE([AM_XGETTEXT_OPTION_INIT])
-  XGETTEXT_EXTRA_OPTIONS="$XGETTEXT_EXTRA_OPTIONS $1"
-])
-
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 8
 
 # AM_AUTOMAKE_VERSION(VERSION)
 # ----------------------------
@@ -483,10 +32,10 @@ AC_DEFUN([AM_XGETTEXT_OPTION],
 # generated from the m4 files accompanying Automake X.Y.
 # (This private macro should not be called outside this file.)
 AC_DEFUN([AM_AUTOMAKE_VERSION],
-[am__api_version='1.12a'
+[am__api_version='1.99a'
 dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
 dnl require some minimum version.  Point them to the right macro.
-m4_if([$1], [1.12a], [],
+m4_if([$1], [1.99a], [],
       [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
 ])
 
@@ -502,20 +51,18 @@ m4_define([_AM_AUTOCONF_VERSION], [])
 # Call AM_AUTOMAKE_VERSION and AM_AUTOMAKE_VERSION so they can be traced.
 # This function is AC_REQUIREd by AM_INIT_AUTOMAKE.
 AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION],
-[AM_AUTOMAKE_VERSION([1.12a])dnl
+[AM_AUTOMAKE_VERSION([1.99a])dnl
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
 _AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
 
 # AM_AUX_DIR_EXPAND                                         -*- Autoconf -*-
 
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 2
 
 # For projects using AC_CONFIG_AUX_DIR([foo]), Autoconf sets
 # $ac_aux_dir to '$srcdir/foo'.  In other projects, it is set to
@@ -564,13 +111,11 @@ am_aux_dir=`cd $ac_aux_dir && pwd`
 
 # AM_CONDITIONAL                                            -*- Autoconf -*-
 
-# Copyright (C) 1997-2012 Free Software Foundation, Inc.
+# Copyright (C) 1997-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 10
 
 # AM_CONDITIONAL(NAME, SHELL-CONDITION)
 # -------------------------------------
@@ -597,13 +142,12 @@ AC_CONFIG_COMMANDS_PRE(
 Usually this means the macro was only invoked conditionally.]])
 fi])])
 
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 1999-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 17
 
 # There are a few dirty hacks below to avoid letting 'AC_PROG_CC' be
 # written in clear, in which case automake, when reading aclocal.m4,
@@ -759,10 +303,7 @@ AM_CONDITIONAL([am__fastdep$1], [
 # -------------
 # Choose a directory name for dependency files.
 # This macro is AC_REQUIREd in _AM_DEPENDENCIES.
-AC_DEFUN([AM_SET_DEPDIR],
-[AC_REQUIRE([AM_SET_LEADING_DOT])dnl
-AC_SUBST([DEPDIR], ["${am__leading_dot}deps"])dnl
-])
+AC_DEFUN([AM_SET_DEPDIR], [AC_SUBST([DEPDIR], [.deps])])
 
 
 # AM_DEP_TRACK
@@ -789,13 +330,12 @@ _AM_SUBST_NOTMAKE([am__nodep])dnl
 
 # Generate code to set up dependency tracking.              -*- Autoconf -*-
 
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 1999-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 7
 
 # _AM_OUTPUT_DEPENDENCY_COMMANDS
 # ------------------------------
@@ -830,7 +370,7 @@ AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS],
     DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
     test -z "$DEPDIR" && continue
     am__include=`sed -n 's/^am__include = //p' < "$mf"`
-    test -z "am__include" && continue
+    test -z "$am__include" && continue
     am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
     # Find all dependency output files, they are included files with
     # $(DEPDIR) in their names.  We invoke sed twice because it is the
@@ -866,21 +406,36 @@ AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS],
 
 # Do all the work for Automake.                             -*- Autoconf -*-
 
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 22
-
 # This macro actually does too much.  Some checks are only needed if
 # your package does certain things.  But this isn't really a big deal.
 
+dnl Redefine AC_PROG_CC to automatically invoke _AM_PROG_CC_C_O.
+m4_define([AC_PROG_CC],
+m4_defn([AC_PROG_CC])
+[_AM_PROG_CC_C_O
+])
+
+# AM_INIT_AUTOMAKE(PACKAGE, VERSION, [NO-DEFINE])
 # AM_INIT_AUTOMAKE([OPTIONS])
-# ---------------------------
+# -----------------------------------------------
+# The call with PACKAGE and VERSION arguments is the old style
+# call (pre autoconf-2.50), which is being phased out.  PACKAGE
+# and VERSION should now be passed to AC_INIT and removed from
+# the call to AM_INIT_AUTOMAKE.
+# We support both call styles for the transition.  After
+# the next Automake release, Autoconf can make the AC_INIT
+# arguments mandatory, and then we can depend on a new Autoconf
+# release and drop the old call support.
 AC_DEFUN([AM_INIT_AUTOMAKE],
 [AC_PREREQ([2.65])dnl
+dnl Without this, packages using Gettext 0.18.2 might break horribly.
+AC_SUBST([mkdir_p], ['$(MKDIR_P)'])dnl
 dnl Autoconf wants to disallow AM_ names.  We explicitly allow
 dnl the ones we care about.
 m4_pattern_allow([^AM_[A-Z]+FLAGS$])dnl
@@ -907,18 +462,21 @@ fi
 AC_SUBST([CYGPATH_W])
 
 # Define the identity of the package.
-dnl Error out on old-style AM_INIT_AUTOMAKE calls.
-m4_ifval([$2], [m4_fatal(
-[$0: old-style two- and three-arguments forms are now unsupported.  For more info:
-http://www.gnu.org/software/automake/manual/automake.html#Modernize-AM_INIT_AUTOMAKE-invocation])])
-_AM_SET_OPTIONS([$1])dnl
+dnl Distinguish between old-style and new-style calls.
+m4_ifval([$2],
+[AC_DIAGNOSE([obsolete],
+             [$0: two- and three-arguments forms are deprecated.])
+m4_ifval([$3], [_AM_SET_OPTION([no-define])])dnl
+ AC_SUBST([PACKAGE], [$1])dnl
+ AC_SUBST([VERSION], [$2])],
+[_AM_SET_OPTIONS([$1])dnl
 dnl Diagnose old-style AC_INIT with new-style AM_AUTOMAKE_INIT.
 m4_if(
   m4_ifdef([AC_PACKAGE_NAME], [ok]):m4_ifdef([AC_PACKAGE_VERSION], [ok]),
   [ok:ok],,
   [m4_fatal([AC_INIT should be called with package and version arguments])])dnl
  AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
- AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])dnl
+ AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])])dnl
 
 _AM_IF_OPTION([no-define],,
 [AC_DEFINE_UNQUOTED([PACKAGE], ["$PACKAGE"], [Name of package])
@@ -939,7 +497,6 @@ AC_REQUIRE([AC_PROG_MKDIR_P])dnl
 # some platforms.
 AC_REQUIRE([AC_PROG_AWK])dnl
 AC_REQUIRE([AC_PROG_MAKE_SET])dnl
-AC_REQUIRE([AM_SET_LEADING_DOT])dnl
 _AM_IF_OPTION([tar-ustar], [_AM_PROG_TAR([ustar])],
 	      [_AM_IF_OPTION([tar-pax], [_AM_PROG_TAR([pax])],
 			     [_AM_PROG_TAR([v7])])])
@@ -968,14 +525,54 @@ dnl macro is hooked onto _AC_COMPILER_EXEEXT early, see below.
 AC_CONFIG_COMMANDS_PRE(dnl
 [m4_provide_if([_AM_COMPILER_EXEEXT],
   [AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])])])dnl
-])
+
+# POSIX will say in a future version that running "rm -f" with no argument
+# is OK; and we want to be able to make that assumption in our Makefile
+# recipes.  So use an aggressive probe to check that the usage we want is
+# actually supported "in the wild" to an acceptable degree.
+# See automake bug#10828.
+# To make any issue more visible, cause the running configure to be aborted
+# by default if the 'rm' program in use doesn't match our expectations; the
+# user can still override this though.
+if rm -f && rm -fr && rm -rf; then : OK; else
+  cat >&2 <<'END'
+Oops!
+
+Your 'rm' program seems unable to run without file operands specified
+on the command line, even when the '-f' option is present.  This is contrary
+to the behaviour of most rm programs out there, and not conforming with
+the upcoming POSIX standard: <http://austingroupbugs.net/view.php?id=542>
+
+Please tell bug-automake@gnu.org about your system, including the value
+of your $PATH and any error possibly output before this message.  This
+can help us improve future automake versions.
+
+END
+  if test x"$ACCEPT_INFERIOR_RM_PROGRAM" = x"yes"; then
+    echo 'Configuration will proceed anyway, since you have set the' >&2
+    echo 'ACCEPT_INFERIOR_RM_PROGRAM variable to "yes"' >&2
+    echo >&2
+  else
+    cat >&2 <<'END'
+Aborting the configuration process, to ensure you take notice of the issue.
+
+You can download and install GNU coreutils to get an 'rm' implementation
+that behaves properly: <http://www.gnu.org/software/coreutils/>.
+
+If you want to complete the configuration process using your problematic
+'rm' anyway, export the environment variable ACCEPT_INFERIOR_RM_PROGRAM
+to "yes", and re-run configure.
+
+END
+    AC_MSG_ERROR([Your 'rm' program is bad, sorry.])
+  fi
+fi])
 
 dnl Hook into '_AC_COMPILER_EXEEXT' early to learn its expansion.  Do not
 dnl add the conditional right here, as _AC_COMPILER_EXEEXT may be further
 dnl mangled by Autoconf and run in a shell conditional statement.
 m4_define([_AC_COMPILER_EXEEXT],
 m4_defn([_AC_COMPILER_EXEEXT])[m4_provide([_AM_COMPILER_EXEEXT])])
-
 
 # When config.status generates a header, we must update the stamp-h file.
 # This file resides in the same directory as the config header
@@ -998,13 +595,11 @@ for _am_header in $config_headers :; do
 done
 echo "timestamp for $_am_arg" >`AS_DIRNAME(["$_am_arg"])`/stamp-h[]$_am_stamp_count])
 
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 8
 
 # AM_PROG_INSTALL_SH
 # ------------------
@@ -1021,36 +616,13 @@ if test x"${install_sh}" != xset; then
 fi
 AC_SUBST([install_sh])])
 
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
-#
-# This file is free software; the Free Software Foundation
-# gives unlimited permission to copy and/or distribute it,
-# with or without modifications, as long as this notice is preserved.
-
-# serial 2
-
-# Check whether the underlying file-system supports filenames
-# with a leading dot.  For instance MS-DOS doesn't.
-AC_DEFUN([AM_SET_LEADING_DOT],
-[rm -rf .tst 2>/dev/null
-mkdir .tst 2>/dev/null
-if test -d .tst; then
-  am__leading_dot=.
-else
-  am__leading_dot=_
-fi
-rmdir .tst 2>/dev/null
-AC_SUBST([am__leading_dot])])
-
 # Check to see how 'make' treats includes.	            -*- Autoconf -*-
 
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 5
 
 # AM_MAKE_INCLUDE()
 # -----------------
@@ -1094,49 +666,13 @@ AC_MSG_RESULT([$_am_result])
 rm -f confinc confmf
 ])
 
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
-#
-# This file is free software; the Free Software Foundation
-# gives unlimited permission to copy and/or distribute it,
-# with or without modifications, as long as this notice is preserved.
-
-# serial 6
-
-# AM_PROG_CC_C_O
-# --------------
-# Like AC_PROG_CC_C_O, but changed for automake.
-AC_DEFUN([AM_PROG_CC_C_O],
-[AC_REQUIRE([AC_PROG_CC_C_O])dnl
-AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
-AC_REQUIRE_AUX_FILE([compile])dnl
-# FIXME: we rely on the cache variable name because
-# there is no other way.
-set dummy $CC
-am_cc=`echo $[2] | sed ['s/[^a-zA-Z0-9_]/_/g;s/^[0-9]/_/']`
-eval am_t=\$ac_cv_prog_cc_${am_cc}_c_o
-if test "$am_t" != yes; then
-   # Losing compiler, so override with the script.
-   # FIXME: It is wrong to rewrite CC.
-   # But if we don't then we get into trouble of one sort or another.
-   # A longer-term fix would be to have automake use am__CC in this case,
-   # and then we could set am__CC="\$(top_srcdir)/compile \$(CC)"
-   CC="$am_aux_dir/compile $CC"
-fi
-dnl Make sure AC_PROG_CC is never called again, or it will override our
-dnl setting of CC.
-m4_define([AC_PROG_CC],
-          [m4_fatal([AC_PROG_CC cannot be called after AM_PROG_CC_C_O])])
-])
-
 # Fake the existence of programs that GNU maintainers use.  -*- Autoconf -*-
 
-# Copyright (C) 1997-2012 Free Software Foundation, Inc.
+# Copyright (C) 1997-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 7
 
 # AM_MISSING_PROG(NAME, PROGRAM)
 # ------------------------------
@@ -1145,11 +681,10 @@ AC_DEFUN([AM_MISSING_PROG],
 $1=${$1-"${am_missing_run}$2"}
 AC_SUBST($1)])
 
-
 # AM_MISSING_HAS_RUN
 # ------------------
-# Define MISSING if not defined so far and test if it supports --run.
-# If it does, set am_missing_run to use it, otherwise, to nothing.
+# Define MISSING if not defined so far and test if it is modern enough.
+# If it is, set am_missing_run to use it, otherwise, to nothing.
 AC_DEFUN([AM_MISSING_HAS_RUN],
 [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
 AC_REQUIRE_AUX_FILE([missing])dnl
@@ -1162,8 +697,8 @@ if test x"${MISSING+set}" != xset; then
   esac
 fi
 # Use eval to expand $SHELL
-if eval "$MISSING --run true"; then
-  am_missing_run="$MISSING --run "
+if eval "$MISSING --is-lightweight"; then
+  am_missing_run="$MISSING "
 else
   am_missing_run=
   AC_MSG_WARN(['missing' script is too old or missing])
@@ -1172,13 +707,11 @@ fi
 
 # Helper functions for option handling.                     -*- Autoconf -*-
 
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 6
 
 # _AM_MANGLE_OPTION(NAME)
 # -----------------------
@@ -1203,15 +736,77 @@ AC_DEFUN([_AM_SET_OPTIONS],
 AC_DEFUN([_AM_IF_OPTION],
 [m4_ifset(_AM_MANGLE_OPTION([$1]), [$2], [$3])])
 
-# Check to make sure that the build environment is sane.    -*- Autoconf -*-
-
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1999-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 9
+# _AM_PROG_CC_C_O
+# ---------------
+# Like AC_PROG_CC_C_O, but changed for automake.  We rewrite AC_PROG_CC
+# to automatically call this.
+AC_DEFUN([_AM_PROG_CC_C_O],
+[AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+AC_REQUIRE_AUX_FILE([compile])dnl
+AC_LANG_PUSH([C])dnl
+AC_CACHE_CHECK(
+  [whether $CC understands -c and -o together],
+  [am_cv_prog_cc_c_o],
+  [AC_LANG_CONFTEST([AC_LANG_PROGRAM([])])
+  # Make sure it works both with $CC and with simple cc.
+  # Following AC_PROG_CC_C_O, we do the test twice because some
+  # compilers refuse to overwrite an existing .o file with -o,
+  # though they will create one.
+  am_cv_prog_cc_c_o=yes
+  for am_i in 1 2; do
+    if AM_RUN_LOG([$CC -c conftest.$ac_ext -o conftest2.$ac_objext]) \
+         && test -f conftest2.$ac_objext; then
+      : OK
+    else
+      am_cv_prog_cc_c_o=no
+      break
+    fi
+  done
+  rm -f core conftest*
+  unset am_i])
+if test "$am_cv_prog_cc_c_o" != yes; then
+   # Losing compiler, so override with the script.
+   # FIXME: It is wrong to rewrite CC.
+   # But if we don't then we get into trouble of one sort or another.
+   # A longer-term fix would be to have automake use am__CC in this case,
+   # and then we could set am__CC="\$(top_srcdir)/compile \$(CC)"
+   CC="$am_aux_dir/compile $CC"
+fi
+AC_LANG_POP([C])])
+
+# For backward compatibility.
+AC_DEFUN_ONCE([AM_PROG_CC_C_O], [AC_REQUIRE([AC_PROG_CC])])
+
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+#
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# AM_RUN_LOG(COMMAND)
+# -------------------
+# Run COMMAND, save the exit status in ac_status, and log it.
+# (This has been adapted from Autoconf's _AC_RUN_LOG macro.)
+AC_DEFUN([AM_RUN_LOG],
+[{ echo "$as_me:$LINENO: $1" >&AS_MESSAGE_LOG_FD
+   ($1) >&AS_MESSAGE_LOG_FD 2>&AS_MESSAGE_LOG_FD
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&AS_MESSAGE_LOG_FD
+   (exit $ac_status); }])
+
+# Check to make sure that the build environment is sane.    -*- Autoconf -*-
+
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
+#
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
 
 # AM_SANITY_CHECK
 # ---------------
@@ -1288,13 +883,11 @@ AC_CONFIG_COMMANDS_PRE(
 rm -f conftest.file
 ])
 
-# Copyright (C) 2009-2012 Free Software Foundation, Inc.
+# Copyright (C) 2009-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 3
 
 # AM_SILENT_RULES([DEFAULT])
 # --------------------------
@@ -1350,13 +943,11 @@ AC_SUBST([AM_BACKSLASH])dnl
 _AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
 ])
 
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 2
 
 # AM_PROG_INSTALL_STRIP
 # ---------------------
@@ -1380,13 +971,11 @@ fi
 INSTALL_STRIP_PROGRAM="\$(install_sh) -c -s"
 AC_SUBST([INSTALL_STRIP_PROGRAM])])
 
-# Copyright (C) 2006-2012 Free Software Foundation, Inc.
+# Copyright (C) 2006-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 3
 
 # _AM_SUBST_NOTMAKE(VARIABLE)
 # ---------------------------
@@ -1401,13 +990,11 @@ AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
 
 # Check how to create a tarball.                            -*- Autoconf -*-
 
-# Copyright (C) 2004-2012 Free Software Foundation, Inc.
+# Copyright (C) 2004-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
-# serial 3
 
 # _AM_PROG_TAR(FORMAT)
 # --------------------
@@ -1422,79 +1009,570 @@ AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
 # Substitute a variable $(am__untar) that extract such
 # a tarball read from stdin.
 #     $(am__untar) < result.tar
+#
 AC_DEFUN([_AM_PROG_TAR],
 [# Always define AMTAR for backward compatibility.  Yes, it's still used
 # in the wild :-(  We should find a proper way to deprecate it ...
 AC_SUBST([AMTAR], ['$${TAR-tar}'])
-m4_if([$1], [v7],
-     [am__tar='$${TAR-tar} chof - "$$tardir"' am__untar='$${TAR-tar} xf -'],
-     [m4_case([$1], [ustar],, [pax],,
-              [m4_fatal([Unknown tar format])])
-AC_MSG_CHECKING([how to create a $1 tar archive])
-# Loop over all known methods to create a tar archive until one works.
+
+# We'll loop over all known methods to create a tar archive until one works.
 _am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
-_am_tools=${am_cv_prog_tar_$1-$_am_tools}
-# Do not fold the above two line into one, because Tru64 sh and
-# Solaris sh will not grok spaces in the rhs of '-'.
-for _am_tool in $_am_tools
-do
-  case $_am_tool in
-  gnutar)
-    for _am_tar in tar gnutar gtar;
-    do
-      AM_RUN_LOG([$_am_tar --version]) && break
-    done
-    am__tar="$_am_tar --format=m4_if([$1], [pax], [posix], [$1]) -chf - "'"$$tardir"'
-    am__tar_="$_am_tar --format=m4_if([$1], [pax], [posix], [$1]) -chf - "'"$tardir"'
-    am__untar="$_am_tar -xf -"
-    ;;
-  plaintar)
-    # Must skip GNU tar: if it does not support --format= it doesn't create
-    # ustar tarball either.
-    (tar --version) >/dev/null 2>&1 && continue
-    am__tar='tar chf - "$$tardir"'
-    am__tar_='tar chf - "$tardir"'
-    am__untar='tar xf -'
-    ;;
-  pax)
-    am__tar='pax -L -x $1 -w "$$tardir"'
-    am__tar_='pax -L -x $1 -w "$tardir"'
-    am__untar='pax -r'
-    ;;
-  cpio)
-    am__tar='find "$$tardir" -print | cpio -o -H $1 -L'
-    am__tar_='find "$tardir" -print | cpio -o -H $1 -L'
-    am__untar='cpio -i -H $1 -d'
-    ;;
-  none)
-    am__tar=false
-    am__tar_=false
-    am__untar=false
-    ;;
-  esac
 
-  # If the value was cached, stop now.  We just wanted to have am__tar
-  # and am__untar set.
-  test -n "${am_cv_prog_tar_$1}" && break
+m4_if([$1], [v7],
+  [am__tar='$${TAR-tar} chof - "$$tardir"' am__untar='$${TAR-tar} xf -'],
 
-  # tar/untar a dummy directory, and stop if the command works
+  [m4_case([$1],
+    [ustar],
+     [# The POSIX 1988 'ustar' format is defined with fixed-size fields.
+      # There is notably a 21 bits limit for the UID and the GID.  In fact,
+      # the 'pax' utility can hang on bigger UID/GID (see automake bug#8343
+      # and bug#13588).
+      am_max_uid=2097151 # 2^21 - 1
+      am_max_gid=$am_max_uid
+      # The $UID and $GID variables are not portable, so we need to resort
+      # to the POSIX-mandated id(1) utility.  Errors in the 'id' calls
+      # below are definitely unexpected, so allow the users to see them
+      # (that is, avoid stderr redirection).
+      am_uid=`id -u || echo unknown`
+      am_gid=`id -g || echo unknown`
+      AC_MSG_CHECKING([whether UID '$am_uid' is supported by ustar format])
+      if test $am_uid -le $am_max_uid; then
+         AC_MSG_RESULT([yes])
+      else
+         AC_MSG_RESULT([no])
+         _am_tools=none
+      fi
+      AC_MSG_CHECKING([whether GID '$am_gid' is supported by ustar format])
+      if test $am_gid -le $am_max_gid; then
+         AC_MSG_RESULT([yes])
+      else
+        AC_MSG_RESULT([no])
+        _am_tools=none
+      fi],
+
+  [pax],
+    [],
+
+  [m4_fatal([Unknown tar format])])
+
+  AC_MSG_CHECKING([how to create a $1 tar archive])
+
+  # Go ahead even if we have the value already cached.  We do so because we
+  # need to set the values for the 'am__tar' and 'am__untar' variables.
+  _am_tools=${am_cv_prog_tar_$1-$_am_tools}
+
+  for _am_tool in $_am_tools; do
+    case $_am_tool in
+    gnutar)
+      for _am_tar in tar gnutar gtar; do
+        AM_RUN_LOG([$_am_tar --version]) && break
+      done
+      am__tar="$_am_tar --format=m4_if([$1], [pax], [posix], [$1]) -chf - "'"$$tardir"'
+      am__tar_="$_am_tar --format=m4_if([$1], [pax], [posix], [$1]) -chf - "'"$tardir"'
+      am__untar="$_am_tar -xf -"
+      ;;
+    plaintar)
+      # Must skip GNU tar: if it does not support --format= it doesn't create
+      # ustar tarball either.
+      (tar --version) >/dev/null 2>&1 && continue
+      am__tar='tar chf - "$$tardir"'
+      am__tar_='tar chf - "$tardir"'
+      am__untar='tar xf -'
+      ;;
+    pax)
+      am__tar='pax -L -x $1 -w "$$tardir"'
+      am__tar_='pax -L -x $1 -w "$tardir"'
+      am__untar='pax -r'
+      ;;
+    cpio)
+      am__tar='find "$$tardir" -print | cpio -o -H $1 -L'
+      am__tar_='find "$tardir" -print | cpio -o -H $1 -L'
+      am__untar='cpio -i -H $1 -d'
+      ;;
+    none)
+      am__tar=false
+      am__tar_=false
+      am__untar=false
+      ;;
+    esac
+
+    # If the value was cached, stop now.  We just wanted to have am__tar
+    # and am__untar set.
+    test -n "${am_cv_prog_tar_$1}" && break
+
+    # tar/untar a dummy directory, and stop if the command works.
+    rm -rf conftest.dir
+    mkdir conftest.dir
+    echo GrepMe > conftest.dir/file
+    AM_RUN_LOG([tardir=conftest.dir && eval $am__tar_ >conftest.tar])
+    rm -rf conftest.dir
+    if test -s conftest.tar; then
+      AM_RUN_LOG([$am__untar <conftest.tar])
+      AM_RUN_LOG([cat conftest.dir/file])
+      grep GrepMe conftest.dir/file >/dev/null 2>&1 && break
+    fi
+  done
   rm -rf conftest.dir
-  mkdir conftest.dir
-  echo GrepMe > conftest.dir/file
-  AM_RUN_LOG([tardir=conftest.dir && eval $am__tar_ >conftest.tar])
-  rm -rf conftest.dir
-  if test -s conftest.tar; then
-    AM_RUN_LOG([$am__untar <conftest.tar])
-    grep GrepMe conftest.dir/file >/dev/null 2>&1 && break
-  fi
-done
-rm -rf conftest.dir
 
-AC_CACHE_VAL([am_cv_prog_tar_$1], [am_cv_prog_tar_$1=$_am_tool])
-AC_MSG_RESULT([$am_cv_prog_tar_$1])])
+  AC_CACHE_VAL([am_cv_prog_tar_$1], [am_cv_prog_tar_$1=$_am_tool])
+  AC_MSG_RESULT([$am_cv_prog_tar_$1])])
+
 AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
+
+# po.m4 serial 20 (gettext-0.18.2)
+dnl Copyright (C) 1995-2012 Free Software Foundation, Inc.
+dnl This file is free software; the Free Software Foundation
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
+dnl
+dnl This file can can be used in projects which are not available under
+dnl the GNU General Public License or the GNU Library General Public
+dnl License but which still want to provide support for the GNU gettext
+dnl functionality.
+dnl Please note that the actual code of the GNU gettext library is covered
+dnl by the GNU Library General Public License, and the rest of the GNU
+dnl gettext package package is covered by the GNU General Public License.
+dnl They are *not* in the public domain.
+
+dnl Authors:
+dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
+dnl   Bruno Haible <haible@clisp.cons.org>, 2000-2003.
+
+AC_PREREQ([2.60])
+
+dnl Checks for all prerequisites of the po subdirectory.
+AC_DEFUN([AM_PO_SUBDIRS],
+[
+  AC_REQUIRE([AC_PROG_MAKE_SET])dnl
+  AC_REQUIRE([AC_PROG_INSTALL])dnl
+  AC_REQUIRE([AC_PROG_MKDIR_P])dnl
+  AC_REQUIRE([AM_NLS])dnl
+
+  dnl Release version of the gettext macros. This is used to ensure that
+  dnl the gettext macros and po/Makefile.in.in are in sync.
+  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
+
+  dnl Perform the following tests also if --disable-nls has been given,
+  dnl because they are needed for "make dist" to work.
+
+  dnl Search for GNU msgfmt in the PATH.
+  dnl The first test excludes Solaris msgfmt and early GNU msgfmt versions.
+  dnl The second test excludes FreeBSD msgfmt.
+  AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
+    [$ac_dir/$ac_word --statistics /dev/null >&]AS_MESSAGE_LOG_FD[ 2>&1 &&
+     (if $ac_dir/$ac_word --statistics /dev/null 2>&1 >/dev/null | grep usage >/dev/null; then exit 1; else exit 0; fi)],
+    :)
+  AC_PATH_PROG([GMSGFMT], [gmsgfmt], [$MSGFMT])
+
+  dnl Test whether it is GNU msgfmt >= 0.15.
+changequote(,)dnl
+  case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
+    *) MSGFMT_015=$MSGFMT ;;
+  esac
+changequote([,])dnl
+  AC_SUBST([MSGFMT_015])
+changequote(,)dnl
+  case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
+    *) GMSGFMT_015=$GMSGFMT ;;
+  esac
+changequote([,])dnl
+  AC_SUBST([GMSGFMT_015])
+
+  dnl Search for GNU xgettext 0.12 or newer in the PATH.
+  dnl The first test excludes Solaris xgettext and early GNU xgettext versions.
+  dnl The second test excludes FreeBSD xgettext.
+  AM_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
+    [$ac_dir/$ac_word --omit-header --copyright-holder= --msgid-bugs-address= /dev/null >&]AS_MESSAGE_LOG_FD[ 2>&1 &&
+     (if $ac_dir/$ac_word --omit-header --copyright-holder= --msgid-bugs-address= /dev/null 2>&1 >/dev/null | grep usage >/dev/null; then exit 1; else exit 0; fi)],
+    :)
+  dnl Remove leftover from FreeBSD xgettext call.
+  rm -f messages.po
+
+  dnl Test whether it is GNU xgettext >= 0.15.
+changequote(,)dnl
+  case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
+    *) XGETTEXT_015=$XGETTEXT ;;
+  esac
+changequote([,])dnl
+  AC_SUBST([XGETTEXT_015])
+
+  dnl Search for GNU msgmerge 0.11 or newer in the PATH.
+  AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
+    [$ac_dir/$ac_word --update -q /dev/null /dev/null >&]AS_MESSAGE_LOG_FD[ 2>&1], :)
+
+  dnl Installation directories.
+  dnl Autoconf >= 2.60 defines localedir. For older versions of autoconf, we
+  dnl have to define it here, so that it can be used in po/Makefile.
+  test -n "$localedir" || localedir='${datadir}/locale'
+  AC_SUBST([localedir])
+
+  dnl Support for AM_XGETTEXT_OPTION.
+  test -n "${XGETTEXT_EXTRA_OPTIONS+set}" || XGETTEXT_EXTRA_OPTIONS=
+  AC_SUBST([XGETTEXT_EXTRA_OPTIONS])
+
+  AC_CONFIG_COMMANDS([po-directories], [[
+    for ac_file in $CONFIG_FILES; do
+      # Support "outfile[:infile[:infile...]]"
+      case "$ac_file" in
+        *:*) ac_file=`echo "$ac_file"|sed 's%:.*%%'` ;;
+      esac
+      # PO directories have a Makefile.in generated from Makefile.in.in.
+      case "$ac_file" in */Makefile.in)
+        # Adjust a relative srcdir.
+        ac_dir=`echo "$ac_file"|sed 's%/[^/][^/]*$%%'`
+        ac_dir_suffix=/`echo "$ac_dir"|sed 's%^\./%%'`
+        ac_dots=`echo "$ac_dir_suffix"|sed 's%/[^/]*%../%g'`
+        # In autoconf-2.13 it is called $ac_given_srcdir.
+        # In autoconf-2.50 it is called $srcdir.
+        test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
+        case "$ac_given_srcdir" in
+          .)  top_srcdir=`echo $ac_dots|sed 's%/$%%'` ;;
+          /*) top_srcdir="$ac_given_srcdir" ;;
+          *)  top_srcdir="$ac_dots$ac_given_srcdir" ;;
+        esac
+        # Treat a directory as a PO directory if and only if it has a
+        # POTFILES.in file. This allows packages to have multiple PO
+        # directories under different names or in different locations.
+        if test -f "$ac_given_srcdir/$ac_dir/POTFILES.in"; then
+          rm -f "$ac_dir/POTFILES"
+          test -n "$as_me" && echo "$as_me: creating $ac_dir/POTFILES" || echo "creating $ac_dir/POTFILES"
+          gt_tab=`printf '\t'`
+          cat "$ac_given_srcdir/$ac_dir/POTFILES.in" | sed -e "/^#/d" -e "/^[ ${gt_tab}]*\$/d" -e "s,.*,     $top_srcdir/& \\\\," | sed -e "\$s/\(.*\) \\\\/\1/" > "$ac_dir/POTFILES"
+          POMAKEFILEDEPS="POTFILES.in"
+          # ALL_LINGUAS, POFILES, UPDATEPOFILES, DUMMYPOFILES, GMOFILES depend
+          # on $ac_dir but don't depend on user-specified configuration
+          # parameters.
+          if test -f "$ac_given_srcdir/$ac_dir/LINGUAS"; then
+            # The LINGUAS file contains the set of available languages.
+            if test -n "$OBSOLETE_ALL_LINGUAS"; then
+              test -n "$as_me" && echo "$as_me: setting ALL_LINGUAS in configure.in is obsolete" || echo "setting ALL_LINGUAS in configure.in is obsolete"
+            fi
+            ALL_LINGUAS_=`sed -e "/^#/d" -e "s/#.*//" "$ac_given_srcdir/$ac_dir/LINGUAS"`
+            # Hide the ALL_LINGUAS assignment from automake < 1.5.
+            eval 'ALL_LINGUAS''=$ALL_LINGUAS_'
+            POMAKEFILEDEPS="$POMAKEFILEDEPS LINGUAS"
+          else
+            # The set of available languages was given in configure.in.
+            # Hide the ALL_LINGUAS assignment from automake < 1.5.
+            eval 'ALL_LINGUAS''=$OBSOLETE_ALL_LINGUAS'
+          fi
+          # Compute POFILES
+          # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).po)
+          # Compute UPDATEPOFILES
+          # as      $(foreach lang, $(ALL_LINGUAS), $(lang).po-update)
+          # Compute DUMMYPOFILES
+          # as      $(foreach lang, $(ALL_LINGUAS), $(lang).nop)
+          # Compute GMOFILES
+          # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).gmo)
+          case "$ac_given_srcdir" in
+            .) srcdirpre= ;;
+            *) srcdirpre='$(srcdir)/' ;;
+          esac
+          POFILES=
+          UPDATEPOFILES=
+          DUMMYPOFILES=
+          GMOFILES=
+          for lang in $ALL_LINGUAS; do
+            POFILES="$POFILES $srcdirpre$lang.po"
+            UPDATEPOFILES="$UPDATEPOFILES $lang.po-update"
+            DUMMYPOFILES="$DUMMYPOFILES $lang.nop"
+            GMOFILES="$GMOFILES $srcdirpre$lang.gmo"
+          done
+          # CATALOGS depends on both $ac_dir and the user's LINGUAS
+          # environment variable.
+          INST_LINGUAS=
+          if test -n "$ALL_LINGUAS"; then
+            for presentlang in $ALL_LINGUAS; do
+              useit=no
+              if test "%UNSET%" != "$LINGUAS"; then
+                desiredlanguages="$LINGUAS"
+              else
+                desiredlanguages="$ALL_LINGUAS"
+              fi
+              for desiredlang in $desiredlanguages; do
+                # Use the presentlang catalog if desiredlang is
+                #   a. equal to presentlang, or
+                #   b. a variant of presentlang (because in this case,
+                #      presentlang can be used as a fallback for messages
+                #      which are not translated in the desiredlang catalog).
+                case "$desiredlang" in
+                  "$presentlang"*) useit=yes;;
+                esac
+              done
+              if test $useit = yes; then
+                INST_LINGUAS="$INST_LINGUAS $presentlang"
+              fi
+            done
+          fi
+          CATALOGS=
+          if test -n "$INST_LINGUAS"; then
+            for lang in $INST_LINGUAS; do
+              CATALOGS="$CATALOGS $lang.gmo"
+            done
+          fi
+          test -n "$as_me" && echo "$as_me: creating $ac_dir/Makefile" || echo "creating $ac_dir/Makefile"
+          sed -e "/^POTFILES =/r $ac_dir/POTFILES" -e "/^# Makevars/r $ac_given_srcdir/$ac_dir/Makevars" -e "s|@POFILES@|$POFILES|g" -e "s|@UPDATEPOFILES@|$UPDATEPOFILES|g" -e "s|@DUMMYPOFILES@|$DUMMYPOFILES|g" -e "s|@GMOFILES@|$GMOFILES|g" -e "s|@CATALOGS@|$CATALOGS|g" -e "s|@POMAKEFILEDEPS@|$POMAKEFILEDEPS|g" "$ac_dir/Makefile.in" > "$ac_dir/Makefile"
+          for f in "$ac_given_srcdir/$ac_dir"/Rules-*; do
+            if test -f "$f"; then
+              case "$f" in
+                *.orig | *.bak | *~) ;;
+                *) cat "$f" >> "$ac_dir/Makefile" ;;
+              esac
+            fi
+          done
+        fi
+        ;;
+      esac
+    done]],
+   [# Capture the value of obsolete ALL_LINGUAS because we need it to compute
+    # POFILES, UPDATEPOFILES, DUMMYPOFILES, GMOFILES, CATALOGS. But hide it
+    # from automake < 1.5.
+    eval 'OBSOLETE_ALL_LINGUAS''="$ALL_LINGUAS"'
+    # Capture the value of LINGUAS because we need it to compute CATALOGS.
+    LINGUAS="${LINGUAS-%UNSET%}"
+   ])
+])
+
+dnl Postprocesses a Makefile in a directory containing PO files.
+AC_DEFUN([AM_POSTPROCESS_PO_MAKEFILE],
+[
+  # When this code is run, in config.status, two variables have already been
+  # set:
+  # - OBSOLETE_ALL_LINGUAS is the value of LINGUAS set in configure.in,
+  # - LINGUAS is the value of the environment variable LINGUAS at configure
+  #   time.
+
+changequote(,)dnl
+  # Adjust a relative srcdir.
+  ac_dir=`echo "$ac_file"|sed 's%/[^/][^/]*$%%'`
+  ac_dir_suffix=/`echo "$ac_dir"|sed 's%^\./%%'`
+  ac_dots=`echo "$ac_dir_suffix"|sed 's%/[^/]*%../%g'`
+  # In autoconf-2.13 it is called $ac_given_srcdir.
+  # In autoconf-2.50 it is called $srcdir.
+  test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
+  case "$ac_given_srcdir" in
+    .)  top_srcdir=`echo $ac_dots|sed 's%/$%%'` ;;
+    /*) top_srcdir="$ac_given_srcdir" ;;
+    *)  top_srcdir="$ac_dots$ac_given_srcdir" ;;
+  esac
+
+  # Find a way to echo strings without interpreting backslash.
+  if test "X`(echo '\t') 2>/dev/null`" = 'X\t'; then
+    gt_echo='echo'
+  else
+    if test "X`(printf '%s\n' '\t') 2>/dev/null`" = 'X\t'; then
+      gt_echo='printf %s\n'
+    else
+      echo_func () {
+        cat <<EOT
+$*
+EOT
+      }
+      gt_echo='echo_func'
+    fi
+  fi
+
+  # A sed script that extracts the value of VARIABLE from a Makefile.
+  tab=`printf '\t'`
+  sed_x_variable='
+# Test if the hold space is empty.
+x
+s/P/P/
+x
+ta
+# Yes it was empty. Look if we have the expected variable definition.
+/^['"${tab}"' ]*VARIABLE['"${tab}"' ]*=/{
+  # Seen the first line of the variable definition.
+  s/^['"${tab}"' ]*VARIABLE['"${tab}"' ]*=//
+  ba
+}
+bd
+:a
+# Here we are processing a line from the variable definition.
+# Remove comment, more precisely replace it with a space.
+s/#.*$/ /
+# See if the line ends in a backslash.
+tb
+:b
+s/\\$//
+# Print the line, without the trailing backslash.
+p
+tc
+# There was no trailing backslash. The end of the variable definition is
+# reached. Clear the hold space.
+s/^.*$//
+x
+bd
+:c
+# A trailing backslash means that the variable definition continues in the
+# next line. Put a nonempty string into the hold space to indicate this.
+s/^.*$/P/
+x
+:d
+'
+changequote([,])dnl
+
+  # Set POTFILES to the value of the Makefile variable POTFILES.
+  sed_x_POTFILES=`$gt_echo "$sed_x_variable" | sed -e '/^ *#/d' -e 's/VARIABLE/POTFILES/g'`
+  POTFILES=`sed -n -e "$sed_x_POTFILES" < "$ac_file"`
+  # Compute POTFILES_DEPS as
+  #   $(foreach file, $(POTFILES), $(top_srcdir)/$(file))
+  POTFILES_DEPS=
+  for file in $POTFILES; do
+    POTFILES_DEPS="$POTFILES_DEPS "'$(top_srcdir)/'"$file"
+  done
+  POMAKEFILEDEPS=""
+
+  if test -n "$OBSOLETE_ALL_LINGUAS"; then
+    test -n "$as_me" && echo "$as_me: setting ALL_LINGUAS in configure.in is obsolete" || echo "setting ALL_LINGUAS in configure.in is obsolete"
+  fi
+  if test -f "$ac_given_srcdir/$ac_dir/LINGUAS"; then
+    # The LINGUAS file contains the set of available languages.
+    ALL_LINGUAS_=`sed -e "/^#/d" -e "s/#.*//" "$ac_given_srcdir/$ac_dir/LINGUAS"`
+    POMAKEFILEDEPS="$POMAKEFILEDEPS LINGUAS"
+  else
+    # Set ALL_LINGUAS to the value of the Makefile variable LINGUAS.
+    sed_x_LINGUAS=`$gt_echo "$sed_x_variable" | sed -e '/^ *#/d' -e 's/VARIABLE/LINGUAS/g'`
+    ALL_LINGUAS_=`sed -n -e "$sed_x_LINGUAS" < "$ac_file"`
+  fi
+  # Hide the ALL_LINGUAS assignment from automake < 1.5.
+  eval 'ALL_LINGUAS''=$ALL_LINGUAS_'
+  # Compute POFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).po)
+  # Compute UPDATEPOFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(lang).po-update)
+  # Compute DUMMYPOFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(lang).nop)
+  # Compute GMOFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).gmo)
+  # Compute PROPERTIESFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(top_srcdir)/$(DOMAIN)_$(lang).properties)
+  # Compute CLASSFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(top_srcdir)/$(DOMAIN)_$(lang).class)
+  # Compute QMFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).qm)
+  # Compute MSGFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(frob $(lang)).msg)
+  # Compute RESOURCESDLLFILES
+  # as      $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(frob $(lang))/$(DOMAIN).resources.dll)
+  case "$ac_given_srcdir" in
+    .) srcdirpre= ;;
+    *) srcdirpre='$(srcdir)/' ;;
+  esac
+  POFILES=
+  UPDATEPOFILES=
+  DUMMYPOFILES=
+  GMOFILES=
+  PROPERTIESFILES=
+  CLASSFILES=
+  QMFILES=
+  MSGFILES=
+  RESOURCESDLLFILES=
+  for lang in $ALL_LINGUAS; do
+    POFILES="$POFILES $srcdirpre$lang.po"
+    UPDATEPOFILES="$UPDATEPOFILES $lang.po-update"
+    DUMMYPOFILES="$DUMMYPOFILES $lang.nop"
+    GMOFILES="$GMOFILES $srcdirpre$lang.gmo"
+    PROPERTIESFILES="$PROPERTIESFILES \$(top_srcdir)/\$(DOMAIN)_$lang.properties"
+    CLASSFILES="$CLASSFILES \$(top_srcdir)/\$(DOMAIN)_$lang.class"
+    QMFILES="$QMFILES $srcdirpre$lang.qm"
+    frobbedlang=`echo $lang | sed -e 's/\..*$//' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+    MSGFILES="$MSGFILES $srcdirpre$frobbedlang.msg"
+    frobbedlang=`echo $lang | sed -e 's/_/-/g' -e 's/^sr-CS/sr-SP/' -e 's/@latin$/-Latn/' -e 's/@cyrillic$/-Cyrl/' -e 's/^sr-SP$/sr-SP-Latn/' -e 's/^uz-UZ$/uz-UZ-Latn/'`
+    RESOURCESDLLFILES="$RESOURCESDLLFILES $srcdirpre$frobbedlang/\$(DOMAIN).resources.dll"
+  done
+  # CATALOGS depends on both $ac_dir and the user's LINGUAS
+  # environment variable.
+  INST_LINGUAS=
+  if test -n "$ALL_LINGUAS"; then
+    for presentlang in $ALL_LINGUAS; do
+      useit=no
+      if test "%UNSET%" != "$LINGUAS"; then
+        desiredlanguages="$LINGUAS"
+      else
+        desiredlanguages="$ALL_LINGUAS"
+      fi
+      for desiredlang in $desiredlanguages; do
+        # Use the presentlang catalog if desiredlang is
+        #   a. equal to presentlang, or
+        #   b. a variant of presentlang (because in this case,
+        #      presentlang can be used as a fallback for messages
+        #      which are not translated in the desiredlang catalog).
+        case "$desiredlang" in
+          "$presentlang"*) useit=yes;;
+        esac
+      done
+      if test $useit = yes; then
+        INST_LINGUAS="$INST_LINGUAS $presentlang"
+      fi
+    done
+  fi
+  CATALOGS=
+  JAVACATALOGS=
+  QTCATALOGS=
+  TCLCATALOGS=
+  CSHARPCATALOGS=
+  if test -n "$INST_LINGUAS"; then
+    for lang in $INST_LINGUAS; do
+      CATALOGS="$CATALOGS $lang.gmo"
+      JAVACATALOGS="$JAVACATALOGS \$(DOMAIN)_$lang.properties"
+      QTCATALOGS="$QTCATALOGS $lang.qm"
+      frobbedlang=`echo $lang | sed -e 's/\..*$//' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+      TCLCATALOGS="$TCLCATALOGS $frobbedlang.msg"
+      frobbedlang=`echo $lang | sed -e 's/_/-/g' -e 's/^sr-CS/sr-SP/' -e 's/@latin$/-Latn/' -e 's/@cyrillic$/-Cyrl/' -e 's/^sr-SP$/sr-SP-Latn/' -e 's/^uz-UZ$/uz-UZ-Latn/'`
+      CSHARPCATALOGS="$CSHARPCATALOGS $frobbedlang/\$(DOMAIN).resources.dll"
+    done
+  fi
+
+  sed -e "s|@POTFILES_DEPS@|$POTFILES_DEPS|g" -e "s|@POFILES@|$POFILES|g" -e "s|@UPDATEPOFILES@|$UPDATEPOFILES|g" -e "s|@DUMMYPOFILES@|$DUMMYPOFILES|g" -e "s|@GMOFILES@|$GMOFILES|g" -e "s|@PROPERTIESFILES@|$PROPERTIESFILES|g" -e "s|@CLASSFILES@|$CLASSFILES|g" -e "s|@QMFILES@|$QMFILES|g" -e "s|@MSGFILES@|$MSGFILES|g" -e "s|@RESOURCESDLLFILES@|$RESOURCESDLLFILES|g" -e "s|@CATALOGS@|$CATALOGS|g" -e "s|@JAVACATALOGS@|$JAVACATALOGS|g" -e "s|@QTCATALOGS@|$QTCATALOGS|g" -e "s|@TCLCATALOGS@|$TCLCATALOGS|g" -e "s|@CSHARPCATALOGS@|$CSHARPCATALOGS|g" -e 's,^#distdir:,distdir:,' < "$ac_file" > "$ac_file.tmp"
+  tab=`printf '\t'`
+  if grep -l '@TCLCATALOGS@' "$ac_file" > /dev/null; then
+    # Add dependencies that cannot be formulated as a simple suffix rule.
+    for lang in $ALL_LINGUAS; do
+      frobbedlang=`echo $lang | sed -e 's/\..*$//' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+      cat >> "$ac_file.tmp" <<EOF
+$frobbedlang.msg: $lang.po
+${tab}@echo "\$(MSGFMT) -c --tcl -d \$(srcdir) -l $lang $srcdirpre$lang.po"; \
+${tab}\$(MSGFMT) -c --tcl -d "\$(srcdir)" -l $lang $srcdirpre$lang.po || { rm -f "\$(srcdir)/$frobbedlang.msg"; exit 1; }
+EOF
+    done
+  fi
+  if grep -l '@CSHARPCATALOGS@' "$ac_file" > /dev/null; then
+    # Add dependencies that cannot be formulated as a simple suffix rule.
+    for lang in $ALL_LINGUAS; do
+      frobbedlang=`echo $lang | sed -e 's/_/-/g' -e 's/^sr-CS/sr-SP/' -e 's/@latin$/-Latn/' -e 's/@cyrillic$/-Cyrl/' -e 's/^sr-SP$/sr-SP-Latn/' -e 's/^uz-UZ$/uz-UZ-Latn/'`
+      cat >> "$ac_file.tmp" <<EOF
+$frobbedlang/\$(DOMAIN).resources.dll: $lang.po
+${tab}@echo "\$(MSGFMT) -c --csharp -d \$(srcdir) -l $lang $srcdirpre$lang.po -r \$(DOMAIN)"; \
+${tab}\$(MSGFMT) -c --csharp -d "\$(srcdir)" -l $lang $srcdirpre$lang.po -r "\$(DOMAIN)" || { rm -f "\$(srcdir)/$frobbedlang.msg"; exit 1; }
+EOF
+    done
+  fi
+  if test -n "$POMAKEFILEDEPS"; then
+    cat >> "$ac_file.tmp" <<EOF
+Makefile: $POMAKEFILEDEPS
+EOF
+  fi
+  mv "$ac_file.tmp" "$ac_file"
+])
+
+dnl Initializes the accumulator used by AM_XGETTEXT_OPTION.
+AC_DEFUN([AM_XGETTEXT_OPTION_INIT],
+[
+  XGETTEXT_EXTRA_OPTIONS=
+])
+
+dnl Registers an option to be passed to xgettext in the po subdirectory.
+AC_DEFUN([AM_XGETTEXT_OPTION],
+[
+  AC_REQUIRE([AM_XGETTEXT_OPTION_INIT])
+  XGETTEXT_EXTRA_OPTIONS="$XGETTEXT_EXTRA_OPTIONS $1"
+])
 
 m4_include([m4/00gnulib.m4])
 m4_include([m4/alloca.m4])
@@ -1522,6 +1600,7 @@ m4_include([m4/exponentd.m4])
 m4_include([m4/exponentf.m4])
 m4_include([m4/exponentl.m4])
 m4_include([m4/extensions.m4])
+m4_include([m4/extern-inline.m4])
 m4_include([m4/fchdir.m4])
 m4_include([m4/fclose.m4])
 m4_include([m4/fcntl-o.m4])
@@ -1536,11 +1615,13 @@ m4_include([m4/fpending.m4])
 m4_include([m4/fpieee.m4])
 m4_include([m4/fprintf-posix.m4])
 m4_include([m4/fpurge.m4])
+m4_include([m4/freadahead.m4])
 m4_include([m4/freading.m4])
 m4_include([m4/frexp.m4])
 m4_include([m4/frexpl.m4])
 m4_include([m4/fseek.m4])
 m4_include([m4/fseeko.m4])
+m4_include([m4/fseterr.m4])
 m4_include([m4/fstat.m4])
 m4_include([m4/ftell.m4])
 m4_include([m4/ftello.m4])
@@ -1554,7 +1635,6 @@ m4_include([m4/gnu-make.m4])
 m4_include([m4/gnulib-common.m4])
 m4_include([m4/gnulib-comp.m4])
 m4_include([m4/include_next.m4])
-m4_include([m4/inline.m4])
 m4_include([m4/intmax_t.m4])
 m4_include([m4/inttypes_h.m4])
 m4_include([m4/isnand.m4])
@@ -1634,7 +1714,6 @@ m4_include([m4/utimens.m4])
 m4_include([m4/utimes.m4])
 m4_include([m4/vasnprintf.m4])
 m4_include([m4/vfprintf-posix.m4])
-m4_include([m4/warn-on-use.m4])
 m4_include([m4/warnings.m4])
 m4_include([m4/wchar_h.m4])
 m4_include([m4/wchar_t.m4])

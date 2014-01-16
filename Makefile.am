@@ -1,6 +1,6 @@
 # Make gzip (GNU zip).
 
-# Copyright (C) 1999, 2001-2002, 2006-2007, 2009-2012 Free Software Foundation,
+# Copyright (C) 1999, 2001-2002, 2006-2007, 2009-2013 Free Software Foundation,
 # Inc.
 
 # This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,6 @@ ALL_RECURSIVE_TARGETS =
 BUILT_SOURCES =
 
 SUBDIRS = lib doc . tests
-ACLOCAL_AMFLAGS = -I m4
 AM_CPPFLAGS = -I$(top_srcdir)/lib
 AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS)
 
@@ -84,6 +83,7 @@ SUFFIXES = .in
 	$(AM_V_GEN)sed \
 		-e 's|/bin/sh|$(SHELL)|g' \
 		-e 's|[@]bindir@|'\''$(bindir)'\''|g' \
+		-e 's|[@]GREP@|$(GREP)|g' \
 		-e 's|[@]VERSION@|$(VERSION)|g' \
 		$(srcdir)/$@.in >$@-t \
 	  && chmod a+x $@-t \

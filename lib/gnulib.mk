@@ -1,6 +1,6 @@
 ## DO NOT EDIT! GENERATED AUTOMATICALLY!
 ## Process this file with automake to produce Makefile.in.
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2013 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -546,9 +546,10 @@ EXTRA_libgzip_a_SOURCES += fpurge.c
 
 ## begin gnulib module freadahead
 
-libgzip_a_SOURCES += freadahead.c
 
-EXTRA_DIST += freadahead.h stdio-impl.h
+EXTRA_DIST += freadahead.c freadahead.h stdio-impl.h
+
+EXTRA_libgzip_a_SOURCES += freadahead.c
 
 ## end   gnulib module freadahead
 
@@ -598,9 +599,10 @@ EXTRA_libgzip_a_SOURCES += fseeko.c
 
 ## begin gnulib module fseterr
 
-libgzip_a_SOURCES += fseterr.c
 
-EXTRA_DIST += fseterr.h stdio-impl.h
+EXTRA_DIST += fseterr.c fseterr.h stdio-impl.h
+
+EXTRA_libgzip_a_SOURCES += fseterr.c
 
 ## end   gnulib module fseterr
 
@@ -742,7 +744,7 @@ EXTRA_DIST += $(top_srcdir)/build-aux/gnu-web-doc-update
 
 distclean-local: clean-GNUmakefile
 clean-GNUmakefile:
-	test x'$(VPATH)' != x && rm -f $(top_builddir)/GNUmakefile || :
+	test '$(srcdir)' = . || rm -f $(top_builddir)/GNUmakefile
 
 EXTRA_DIST += $(top_srcdir)/GNUmakefile
 
@@ -928,6 +930,7 @@ EXTRA_libgzip_a_SOURCES += malloc.c
 ## begin gnulib module math
 
 BUILT_SOURCES += math.h
+libgzip_a_SOURCES += math.c
 
 # We need the following in order to create <math.h> when the system
 # doesn't have one that works with the given compiler.
@@ -1283,7 +1286,7 @@ EXTRA_libgzip_a_SOURCES += open.c
 ## begin gnulib module openat
 
 
-EXTRA_DIST += openat-priv.h openat.c
+EXTRA_DIST += openat.c
 
 EXTRA_libgzip_a_SOURCES += openat.c
 
@@ -1544,6 +1547,7 @@ EXTRA_libgzip_a_SOURCES += stat.c
 
 ## begin gnulib module stat-time
 
+libgzip_a_SOURCES += stat-time.c
 
 EXTRA_DIST += stat-time.h
 
@@ -1818,6 +1822,7 @@ stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
 	      -e 's/@''GNULIB_REALLOC_POSIX''@/$(GNULIB_REALLOC_POSIX)/g' \
 	      -e 's/@''GNULIB_REALPATH''@/$(GNULIB_REALPATH)/g' \
 	      -e 's/@''GNULIB_RPMATCH''@/$(GNULIB_RPMATCH)/g' \
+	      -e 's/@''GNULIB_SECURE_GETENV''@/$(GNULIB_SECURE_GETENV)/g' \
 	      -e 's/@''GNULIB_SETENV''@/$(GNULIB_SETENV)/g' \
 	      -e 's/@''GNULIB_STRTOD''@/$(GNULIB_STRTOD)/g' \
 	      -e 's/@''GNULIB_STRTOLL''@/$(GNULIB_STRTOLL)/g' \
@@ -1846,6 +1851,7 @@ stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
 	      -e 's|@''HAVE_RANDOM_R''@|$(HAVE_RANDOM_R)|g' \
 	      -e 's|@''HAVE_REALPATH''@|$(HAVE_REALPATH)|g' \
 	      -e 's|@''HAVE_RPMATCH''@|$(HAVE_RPMATCH)|g' \
+	      -e 's|@''HAVE_SECURE_GETENV''@|$(HAVE_SECURE_GETENV)|g' \
 	      -e 's|@''HAVE_DECL_SETENV''@|$(HAVE_DECL_SETENV)|g' \
 	      -e 's|@''HAVE_STRTOD''@|$(HAVE_STRTOD)|g' \
 	      -e 's|@''HAVE_STRTOLL''@|$(HAVE_STRTOLL)|g' \
@@ -1859,6 +1865,7 @@ stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
 	      -e 's|@''REPLACE_MALLOC''@|$(REPLACE_MALLOC)|g' \
 	      -e 's|@''REPLACE_MBTOWC''@|$(REPLACE_MBTOWC)|g' \
 	      -e 's|@''REPLACE_MKSTEMP''@|$(REPLACE_MKSTEMP)|g' \
+	      -e 's|@''REPLACE_PTSNAME''@|$(REPLACE_PTSNAME)|g' \
 	      -e 's|@''REPLACE_PTSNAME_R''@|$(REPLACE_PTSNAME_R)|g' \
 	      -e 's|@''REPLACE_PUTENV''@|$(REPLACE_PUTENV)|g' \
 	      -e 's|@''REPLACE_RANDOM_R''@|$(REPLACE_RANDOM_R)|g' \
@@ -2196,6 +2203,7 @@ EXTRA_DIST += time.in.h
 
 ## begin gnulib module timespec
 
+libgzip_a_SOURCES += timespec.c
 
 EXTRA_DIST += timespec.h
 
@@ -2204,6 +2212,7 @@ EXTRA_DIST += timespec.h
 ## begin gnulib module unistd
 
 BUILT_SOURCES += unistd.h
+libgzip_a_SOURCES += unistd.c
 
 # We need the following in order to create an empty placeholder for
 # <unistd.h> when the system doesn't have one.
@@ -2537,6 +2546,7 @@ EXTRA_DIST += wchar.in.h
 ## begin gnulib module wctype-h
 
 BUILT_SOURCES += wctype.h
+libgzip_a_SOURCES += wctype-h.c
 
 # We need the following in order to create <wctype.h> when the system
 # doesn't have one that works with the given compiler.
@@ -2596,7 +2606,7 @@ EXTRA_DIST += xalloc-oversized.h
 
 ## begin gnulib module xsize
 
-libgzip_a_SOURCES += xsize.h
+libgzip_a_SOURCES += xsize.h xsize.c
 
 ## end   gnulib module xsize
 

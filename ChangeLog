@@ -1,4 +1,247 @@
+2013-06-09  Jim Meyering  <meyering@fb.com>
+
+	version 1.6
+	* NEWS: Record release date.
+
+	build: avoid automake warning that suggests use of subdir-objects
+	* configure.ac (AM_INIT_AUTOMAKE): Use the subdir-objects option.
+
+	build: avoid warning about deprecated use of automake's ACLOCAL_AMFLAGS
+	* Makefile.am (ACLOCAL_AMFLAGS): Don't use this deprecated variable.
+	* configure.ac: Do this instead: AC_CONFIG_MACRO_DIR([m4]).
+
+	build: use more portable shell syntax in search of working shell
+	* m4/shell.m4: Adjust sh/case syntax not to evoke a syntax
+	error from Solaris 10's /bin/sh.
+
+	build: update gnulib to latest, and bootstrap
+
+2013-05-28  Jim Meyering  <meyering@fb.com>
+
+	tests: exercise the new --keep option
+	* tests/keep: New file.
+	* tests/Makefile.am (TESTS): Add it.
+
+2013-05-28  Rodrigo Campos  <rodrigo@sdfg.com.ar>
+
+	gzip: add "--keep" option to retain (don't delete) input files
+	gzip now accepts the --keep (-k) option, for consistency with tools
+	like xz, lzip and bzip2.  With this option, gzip no longer removes
+	named input files when compressing and decompressing.
+	* doc/gzip.texi: Document it.
+	* gzip.1: Likewise.
+	* gunzip.in: Likewise.
+	* NEWS: Likewise.
+	* gzip.c: Add support for "--keep".
+
+2013-04-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: redo patch for non-GNU gzip installed in /usr/local/bin
+	Problem with previous patch reported by Antonio Diaz Diaz in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-04/msg00011.html>.
+	* tests/help-version (gunzip_setuphelp, gzexe_setuphelp)
+	(zcat_setuphelp, zcmp_setuphelp, zdiff_setuphelp)
+	(zegrep_setuphelp, zfgrep_setuphelp, zforce_setuphelp)
+	(zgrep_setuphelp, zless_setuphelp, zmore_setuphelp)
+	(znew_setuphelp): New functions, used when testing even --help.
+	(zdiff_setup, zcat_setup, znew_setup, zgrep_setup, gzexe_setup):
+	Use gzip_setuphelp to set --__bindir.
+
+2013-04-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: work even if non-GNU gzip is installed in /usr/local/bin
+	Problem reported by Antonio Diaz Diaz in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-04/msg00004.html>.
+	* tests/help-version (zdiff_setup, zcat_setup, znew_setup, zgrep_setup)
+	(gzexe_setup): Pass --__bindir so that subsidiary programs are our
+	own's, not /usr/local/bin's.  This requires using 'eval' on the result.
+	(zcmp_setup, gunzip_setup, zmore_setup, zless_setup, zforce_setup)
+	(zegrep_setup, zfgrep_setup): Invoke one of the other setup functions,
+	to make the patterns more obvious and simplify future maintenance.
+	* zcmp.in, zegrep.in, zfgrep.in: Pass __bindir to subsidiary program.
+
+	maint: adjust to Gnulib, Automake changes
+	* .gitignore: Add *.trs.
+	* lib/.gitignore: Add unused-parameter.h.
+
+	tests: port to Solaris 10 /bin/sh
+	* tests/Makefile.am (TESTS_ENVIRONMENT):
+	Use "FOO=val; export FOO" rather than "export FOO=val",
+	as the latter form doesn't work with Solaris /bin/sh.
+
+2013-02-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: port to DMF file systems
+	* util.c (read_buffer): When reading a file with O_NONBLOCK, if
+	the read fails with errno==EAGAIN, clear O_NONBLOCK and try again.
+	Problem reported by Vitezslav Cizek in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-02/msg00030.html>.
+
+2013-02-05  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix bug where you say "n" and gzip acts as if you said "y"
+	Problem reported for GCC 4.7 x86-64 -O2 by Allan McRae in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-02/msg00000.html>.
+	* NEWS: Document this.  Use consistent format in earlier note.
+	* gzip.c: Include yesno.h.
+	* gzip.h (yesno): Remove decl; that's yesno.h's job.
+
+2013-01-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: adjust to Gnulib changes
+	* lib/.gitignore: Add glthread, math.c, unistd.c, wctype-h.c.
+	* m4/.gitignore: Remove inline.m4.
+
+2013-01-04  Jim Meyering  <jim@meyering.net>
+
+	maint: update all copyright year number ranges
+	Run "make update-copyright".
+
+	build: update gnulib submodule to latest
+
+2012-12-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	diagnose unexpected EOF and zero lengths in packed data
+	Problem reported by Aki Helin.
+	* NEWS: Mention Aki's reports.
+	* tests/unpack-invalid: New file,
+	with test data suggested by Aki.
+	* tests/Makefile.am (TESTS): Add it.
+	* unpack.c (read_byte): New function.
+	(look_bits, read_tree): Use it.
+	(read_tree): Check against zero bit length Huffman code.
+
+	gzip: diagnose invalid code in packed data
+	* unpack.c (unpack): When encountering a code out of range, report
+	it and fail rather than charging ahead with randomish output.
+	Problem reported by Aki Helin.
+
+2012-11-16  Jim Meyering  <jim@meyering.net>
+
+	maint: avoid new syntax-check failures
+	* cfg.mk (_gl_TS_unmarked_extern_vars): Append nice_match, to avoid
+	false-positive syntax-check failure on i686.
+	* gzip.c (SIGPIPE): Remove definition.  Now always provided via gnulib.
+	* lib/.gitignore: xsize.c, added by gnulib-tool.
+
+2012-11-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix debugging/porting typo
+	* unlzw.c (unlzw) [DEBUG]: Don't assume 'long' can be printed with %d.
+
+	maint: merge build improvements from coreutils
+	* configure.ac: Invoke gl_ASSERT_NO_GNULIB_POSIXCHECK.
+	(--enable-gcc-warnings): Change help message.
+	(gl_GCC_VERSION_IFELSE): New macro.
+	Do not omit -Wunused-macros for main code.
+	Adjust other -W options as per coreutils.
+	* lib/Makefile.am (AM_CFLAGS): Use GNULIB_WARN_CFLAGS, not WARN_CFLAGS.
+	* unlzw.c (REGISTERS, REG1, REG2, ..., REG16): Remove.
+	All uses removed.  These provoked -Wunused-macros warnings.
+	This sort of fiddling with registers hasn't been needed for years.
+
+	build: update gnulib submodule to latest
+
+	maint: port to platforms lacking SIGPIPE
+	* gzip.c (SIGPIPE): Define to 0 if not already defined.
+
+	doc: bring up to date and fix troff typos
+	* doc/gzip.texi (Overview): Update RFC URLs.
+	* gzip.1: Likewise.  Don't say "SEE ALSO" to programs that almost
+	nobody has installed anymore.
+	* gzip.1, zmore.1: Fix some troff typos.
+	* zdiff.1: Clarify what happens with input files.  Don't talk
+	about temporary file names, as they're rarely used these days.
+
+2012-10-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: exercise the grep -e portability fix
+	Remove workaround for Solaris, since the bug should be fixed now.
+	Suggested by Petr Sumbera in
+	<http://lists.gnu.org/archive/html/bug-gzip/2012-10/msg00005.html>.
+	* tests/zgrep-context, tests/zgrep-f: All uses removed.
+	* tests/init.cfg (require_POSIX_grep_): Remove.
+
+2012-10-23  Eric Blake  <eblake@redhat.com>
+
+	build: default to --enable-gcc-warnings in a git tree
+	Anyone building from cloned sources can be assumed to have a new
+	enough environment, such that enabling gcc warnings by default will
+	be useful.  Tarballs still default to no warnings, and the default
+	can still be overridden with --disable-gcc-warnings.
+	* configure.ac (gl_gcc_warnings): Set default based on environment.
+
+2012-10-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: do not assume standard 'grep' has -e
+	On Solaris 11, /usr/bin/grep -e does not work.
+	Problem reported by Petr Sumbera in
+	<http://lists.gnu.org/archive/html/bug-gzip/2012-10/msg00003.html>.
+	* Makefile.am (.in): Substitute @GREP@.
+	* configure.ac (AC_PROG_GREP): Invoke.
+	* zgrep.in (grep): Use @GREP@.
+
+2012-08-14  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: do not assume GNU expr
+	* zgrep.in: Do not assume '\+' has the GNU behavior in the BRE
+	given to 'expr', as POSIX does not guarantee that.  Come to think
+	of it, use a shell pattern rather than 'expr', as this is more
+	efficient.
+
+2012-08-08  Jim Meyering  <meyering@redhat.com>
+
+	tests: exercise the just-fixed part of zgrep
+	* tests/zgrep-context: New file.
+	* tests/Makefile.am (TESTS): Add it.
+
+2012-08-08  Jim Meyering  <meyering@redhat.com>
+
+	zgrep: handle a multi-digit context option like -15
+	* zgrep.in: Do not malfunction when given an option like -15.
+	Before, it could end up treating the pattern as a file name:
+
+	  $ echo x | gzip | zgrep -15 x
+	  gzip: x.gz: No such file or directory
+
+	* NEWS (Bug fixes): Mention it.
+	Reported by Dan Bloch via Thomas Bushnell in
+	https://bugs.launchpad.net/bugs/1032831
+
+2012-08-07  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib, bootstrap and init.sh
+
+	maint: fix misspellings in old ChangeLog and NEWS
+	* ChangeLog-2007: s/Supress/Suppress/
+	* NEWS: Likewise.
+	* cfg.mk (old_NEWS_hash): Update to match typo fix.
+
+2012-06-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zmore: rewrite to fix bugs and assume POSIX
+	Problem reported for Solaris 9 by Daniel in
+	<http://lists.gnu.org/archive/html/bug-gzip/2012-06/msg00007.html>.
+	Rather than figure out what exactly went wrong in Solaris 9
+	it was easier to rip out all the buggy compatibility and stty cruft.
+	* zmore.in: Don't use stty or trap; simply pipe the output to 'more'
+	and let it deal with signals and terminal control.
+	Use printf, not 'echo', to avoid problems with backslashes.
+	Don't assume ANS is not 's' in the environment.
+	Use a 'more'-style header instead of rolling our own style.
+	Paginate the header, too; the old behavior lost the header.
+	* NEWS, zmore.1: Document this.
+
 2012-06-17  Jim Meyering  <meyering@redhat.com>
+
+	maint: add .mailmap
+	* .mailmap: New file.  Unify two spellings of Paul's name,
+	to make git log output slightly cleaner.
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
 
 	version 1.5
 	* NEWS: Record release date.
@@ -58,7 +301,7 @@
 	maint: update all copyright year number ranges
 	Run "make update-copyright".
 
-2011-12-22  Paul Eggert  <eggert@cs.ucla.edu>
+2011-12-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	zless: decompress stdin too, if less 429 or later
 	* zless.in: Use LESSOPEN |- feature of less 429 or later.
@@ -94,13 +337,11 @@
 
 	build: update gnulib submodule to latest
 
-2011-11-03  Paul Eggert  <eggert@cs.ucla.edu>
+2011-11-02  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/zgrep-signal: Don't assume exit status 141 on PIPE signal.
 	Problem reported by Eric Blake in
 	<http://lists.gnu.org/archive/html/bug-gzip/2011-11/msg00007.html>.
-
-2011-11-02  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* tests/zgrep-signal: Use perl instead of a nonportable shell trap.
 	Problem reported by Eric Blake in
@@ -424,7 +665,7 @@
 	* zip.c (zip): Simplify conditional, which was incorrect at any rate
 	for VMS.
 
-2010-08-16  Paul Eggert  <eggert@cs.ucla.edu>
+2010-08-15  Paul Eggert  <eggert@cs.ucla.edu>
 
 	algorithm.doc: mention Internet RFC 1952 and modernize a bit
 	* algorithm.doc: Update to mention header-CRC and Internet RFC 1952.
@@ -436,7 +677,7 @@
 	Inspired by a suggestion of Greg Roelofs in
 	http://lists.gnu.org/archive/html/bug-gzip/2010-08/msg00004.html
 
-2010-08-04  Paul Eggert  <eggert@cs.ucla.edu>
+2010-08-03  Paul Eggert  <eggert@cs.ucla.edu>
 
 	maint: update bootstrap
 	* bootstrap, bootstrap.conf, tests/init.sh: Merge from gnulib.
@@ -451,11 +692,11 @@
 
 	* gzip.c (get_method): don't assume size_t can be printed with %u
 
-2010-07-03  Paul Eggert  <eggert@cs.ucla.edu>
+2010-07-02  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Mention that gzip -d now handles FHCRC.
 
-2010-07-03  Paul Eggert  <eggert@cs.ucla.edu>
+2010-07-02  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Decode FHCRC flag properly, as per Internet RFC 1952.
 	Problem reported by Greg Roelofs in:
@@ -478,7 +719,7 @@
 
 	Update Info-ZIP name and coordinates (thanks to Greg Roelofs).
 
-2010-05-12  Paul Eggert  <eggert@cs.ucla.edu>
+2010-05-11  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* doc/gzip.texi (Sample): Fix backslash quoting problem.
 	Problem reported by Ole Tange in
@@ -579,7 +820,7 @@
 	maint: update bootstrap
 	* bootstrap: Use latest copy from gnulib/build-aux.
 
-2010-04-06  Jim Meyering  <meyering@redhat.com>
+2010-04-05  Jim Meyering  <meyering@redhat.com>
 
 	build: use gnulib's lib-ignore module
 	* bootstrap.conf (gnulib_modules): Add lib-ignore, in case it helps.
@@ -656,7 +897,7 @@
 	* zcmp.in: Exit with status of 2 (not 1), when writing
 	--help or --version output fails, to be more like cmp.
 
-2010-02-04  Jim Meyering  <meyering@redhat.com>
+2010-02-03  Jim Meyering  <meyering@redhat.com>
 
 	tests: add more tests of gzip -cdf
 	* tests/mixed: Test "gzip -cdf" for a range of small uncompressed files.
@@ -667,14 +908,14 @@
 	(TESTS): ...to here.
 	* tests/mixed: Comment out the currently (always?) failing part.
 
-2010-02-04  Mark Adler  <madler@alumni.caltech.edu>
+2010-02-03  Mark Adler  <madler@alumni.caltech.edu>
 
 	gzip -cdf now handles concatenation of gzip'd and uncompressed data
 	* util.c (copy): Change semantics so as to honor a decremented inptr.
 	* gzip.c (get_method): When needed (-cdf), decrement inptr rather
 	than clearing it -- and output the first magic byte.
 
-2010-02-04  Dmitry V. Levin  <ldv@altlinux.org>
+2010-02-03  Dmitry V. Levin  <ldv@altlinux.org>
 
 	zgrep: terminate gracefully when a pipeline is interrupted by a signal
 	zgrep is not terminated gracefully when its grep/sed pipeline
@@ -699,6 +940,8 @@
 	* bootstrap: Remove "indent-tabs-mode: nil" directive.
 	* .x-sc_prohibit_tab_based_indentation: New file.
 
+2010-02-02  Jim Meyering  <meyering@redhat.com>
+
 	global: convert indentation-TABs to spaces
 	Transformed via this shell code:
 	t=$'\t'
@@ -709,7 +952,7 @@
 	  | xargs perl -MText::Tabs -ni -le \
 	    '$m=/^( *\t[ \t]*)(.*)/; print $m ? expand($1) . $2 : $_'
 
-2010-02-03  Dmitry V. Levin  <ldv@altlinux.org>
+2010-02-02  Dmitry V. Levin  <ldv@altlinux.org>
 
 	wrapper scripts: write diagnostics to stderr, not to stdout
 	* zforce.in: In case of usage error, output short error diagnostics to
@@ -717,7 +960,7 @@
 	* zmore.in: Likewise.
 	* znew.in: Likewise.
 
-2010-02-03  Jim Meyering  <meyering@redhat.com>
+2010-02-02  Jim Meyering  <meyering@redhat.com>
 
 	gzip -cdf mishandles some concatenated input streams: test it
 	* tests/mixed: Exercise "gzip -cdf" bug.
@@ -812,7 +1055,7 @@
 	but fortunately is not a bug, because the definition
 	it would have overridden was always empty.
 
-2010-01-11  Jim Meyering  <meyering@redhat.com>
+2010-01-10  Jim Meyering  <meyering@redhat.com>
 
 	gzip -d would fail with a CRC error...
 	...for some inputs, and some memcpy implementations.  It is possible

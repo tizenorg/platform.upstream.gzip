@@ -1,9 +1,9 @@
-This is gzip.info, produced by makeinfo version 4.13 from gzip.texi.
+This is gzip.info-t, produced by makeinfo version 4.13 from gzip.texi.
 
-This manual is for GNU Gzip (version 1.5, 1 January 2012), and
-documents commands for compressing and decompressing data.
+This manual is for GNU Gzip (version 1.6, 28 May 2013), and documents
+commands for compressing and decompressing data.
 
-   Copyright (C) 1998-1999, 2001-2002, 2006-2007, 2009-2012 Free
+   Copyright (C) 1998-1999, 2001-2002, 2006-2007, 2009-2013 Free
 Software Foundation, Inc.
 
    Copyright (C) 1992, 1993 Jean-loup Gailly
@@ -32,15 +32,15 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: gzip.info,  Node: Top,  Next: Overview,  Up: (dir)
+File: gzip.info-t,  Node: Top,  Next: Overview,  Up: (dir)
 
 GNU Gzip: General file (de)compression
 **************************************
 
-This manual is for GNU Gzip (version 1.5, 1 January 2012), and
-documents commands for compressing and decompressing data.
+This manual is for GNU Gzip (version 1.6, 28 May 2013), and documents
+commands for compressing and decompressing data.
 
-   Copyright (C) 1998-1999, 2001-2002, 2006-2007, 2009-2012 Free
+   Copyright (C) 1998-1999, 2001-2002, 2006-2007, 2009-2013 Free
 Software Foundation, Inc.
 
    Copyright (C) 1992, 1993 Jean-loup Gailly
@@ -65,7 +65,7 @@ Software Foundation, Inc.
 * Concept index::       Index of concepts.
 
 
-File: gzip.info,  Node: Overview,  Next: Sample,  Prev: Top,  Up: Top
+File: gzip.info-t,  Node: Overview,  Next: Sample,  Prev: Top,  Up: Top
 
 1 Overview
 **********
@@ -155,13 +155,13 @@ decompressing.
 
    The `gzip' file format is specified in P. Deutsch, GZIP file format
 specification version 4.3, Internet RFC 1952
-(ftp://ftp.isi.edu/in-notes/rfc1952.txt) (May 1996).  The `zip'
-deflation format is specified in P. Deutsch, DEFLATE Compressed Data
-Format Specification version 1.3, Internet RFC 1951
-(ftp://ftp.isi.edu/in-notes/rfc1951.txt) (May 1996).
+(http://www.ietf.org/rfc/rfc1952.txt) (May 1996).  The `zip' deflation
+format is specified in P. Deutsch, DEFLATE Compressed Data Format
+Specification version 1.3, Internet RFC 1951
+(http://www.ietf.org/rfc/rfc1951.txt) (May 1996).
 
 
-File: gzip.info,  Node: Sample,  Next: Invoking gzip,  Prev: Overview,  Up: Top
+File: gzip.info-t,  Node: Sample,  Next: Invoking gzip,  Prev: Overview,  Up: Top
 
 2 Sample output
 ***************
@@ -179,6 +179,7 @@ Here are some realistic examples of running `gzip'.
        -d, --decompress  decompress
        -f, --force       force overwrite of output file and compress links
        -h, --help        give this help
+       -k, --keep        keep (don't delete) input files
        -l, --list        list compressed file contents
        -L, --license     display software license
        -n, --no-name     do not save or restore the original name and time stamp
@@ -214,7 +215,7 @@ stopping on the first failure:
        sh -e
 
 
-File: gzip.info,  Node: Invoking gzip,  Next: Advanced usage,  Prev: Sample,  Up: Top
+File: gzip.info-t,  Node: Invoking gzip,  Next: Advanced usage,  Prev: Sample,  Up: Top
 
 3 Invoking `gzip'
 *****************
@@ -252,6 +253,11 @@ The format for running the `gzip' program is:
 `--help'
 `-h'
      Print an informative help message describing the options then quit.
+
+`--keep'
+`-k'
+     Keep (don't delete) input files during compression or
+     decompression.
 
 `--list'
 `-l'
@@ -360,7 +366,7 @@ The format for running the `gzip' program is:
      of speed).
 
 
-File: gzip.info,  Node: Advanced usage,  Next: Environment,  Prev: Invoking gzip,  Up: Top
+File: gzip.info-t,  Node: Advanced usage,  Next: Environment,  Prev: Invoking gzip,  Up: Top
 
 4 Advanced usage
 ****************
@@ -412,7 +418,7 @@ transparently.  `gzip' is designed as a complement to `tar', not as a
 replacement.
 
 
-File: gzip.info,  Node: Environment,  Next: Tapes,  Prev: Advanced usage,  Up: Top
+File: gzip.info-t,  Node: Environment,  Next: Tapes,  Prev: Advanced usage,  Up: Top
 
 5 Environment
 *************
@@ -429,7 +435,7 @@ explicit command line parameters.  For example:
 a conflict with the symbol set for invocation of the program.
 
 
-File: gzip.info,  Node: Tapes,  Next: Problems,  Prev: Environment,  Up: Top
+File: gzip.info-t,  Node: Tapes,  Next: Problems,  Prev: Environment,  Up: Top
 
 6 Using `gzip' on tapes
 ***********************
@@ -451,7 +457,7 @@ of `tar') is used for reading and writing compressed data on tapes.
 (This example assumes you are using the GNU version of `tar'.)
 
 
-File: gzip.info,  Node: Problems,  Next: GNU Free Documentation License,  Prev: Tapes,  Up: Top
+File: gzip.info-t,  Node: Problems,  Next: GNU Free Documentation License,  Prev: Tapes,  Up: Top
 
 7 Reporting Bugs
 ****************
@@ -463,7 +469,7 @@ operating system, the compiler used to compile `gzip', a description of
 the bug behavior, and the input to `gzip' that triggered the bug.
 
 
-File: gzip.info,  Node: GNU Free Documentation License,  Next: Concept index,  Prev: Problems,  Up: Top
+File: gzip.info-t,  Node: GNU Free Documentation License,  Next: Concept index,  Prev: Problems,  Up: Top
 
 Appendix A GNU Free Documentation License
 *****************************************
@@ -949,7 +955,7 @@ free software license, such as the GNU General Public License, to
 permit their use in free software.
 
 
-File: gzip.info,  Node: Concept index,  Prev: GNU Free Documentation License,  Up: Top
+File: gzip.info-t,  Node: Concept index,  Prev: GNU Free Documentation License,  Up: Top
 
 Appendix B Concept index
 ************************
@@ -969,15 +975,15 @@ Appendix B Concept index
 
 
 Tag Table:
-Node: Top1472
-Node: Overview2683
-Node: Sample7891
-Node: Invoking gzip9829
-Node: Advanced usage14821
-Node: Environment16408
-Node: Tapes16973
-Node: Problems17990
-Node: GNU Free Documentation License18460
-Node: Concept index43628
+Node: Top1471
+Node: Overview2681
+Node: Sample7885
+Node: Invoking gzip9882
+Node: Advanced usage14970
+Node: Environment16559
+Node: Tapes17126
+Node: Problems18145
+Node: GNU Free Documentation License18617
+Node: Concept index43787
 
 End Tag Table

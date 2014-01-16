@@ -1,6 +1,6 @@
 /* unpack.c -- decompress files in pack format.
 
-   Copyright (C) 1997, 1999, 2006, 2009-2012 Free Software Foundation, Inc.
+   Copyright (C) 1997, 1999, 2006, 2009-2013 Free Software Foundation, Inc.
    Copyright (C) 1992-1993 Jean-loup Gailly
 
    This program is free software; you can redistribute it and/or modify
@@ -76,6 +76,16 @@ local ulg bitbuf;
 local int valid;                  /* number of valid bits in bitbuf */
 /* all bits above the last valid bit are always zero */
 
+/* Read an input byte, reporting an error at EOF.  */
+static unsigned char
+read_byte (void)
+{
+  int b = get_byte ();
+  if (b < 0)
+    gzip_error ("invalid compressed data -- unexpected end of file");
+  return b;
+}
+
 /* Set code to the next 'bits' input bits without skipping them. code
  * must be the name of a simple variable and bits must not have side effects.
  * IN assertions: bits <= 25 (so that we still have room for an extra byte
@@ -83,7 +93,7 @@ local int valid;                  /* number of valid bits in bitbuf */
  */
 #define look_bits(code,bits,mask) \
 { \
-  while (valid < (bits)) bitbuf = (bitbuf<<8) | (ulg)get_byte(), valid += 8; \
+  while (valid < (bits)) bitbuf = (bitbuf<<8) | read_byte(), valid += 8; \
   code = (bitbuf >> (valid-(bits))) & (mask); \
 }
 
@@ -109,17 +119,19 @@ local void read_tree()
 
     /* Read the original input size, MSB first */
     orig_len = 0;
-    for (n = 1; n <= 4; n++) orig_len = (orig_len << 8) | (ulg)get_byte();
+    for (n = 1; n <= 4; n++)
+      orig_len = (orig_len << 8) | read_byte ();
 
-    max_len = (int)get_byte(); /* maximum bit length of Huffman codes */
-    if (max_len > MAX_BITLEN) {
-        gzip_error ("invalid compressed data -- Huffman code > 32 bits");
-    }
+    /* Read the maximum bit length of Huffman codes.  */
+    max_len = read_byte ();
+    if (! (0 < max_len && max_len <= MAX_BITLEN))
+      gzip_error ("invalid compressed data -- "
+                  "Huffman code bit length out of range");
 
     /* Get the number of leaves at each bit length */
     n = 0;
     for (len = 1; len <= max_len; len++) {
-        leaves[len] = (int)get_byte();
+        leaves[len] = read_byte ();
         if (max_leaves - (len == max_len) < leaves[len])
           gzip_error ("too many leaves in Huffman tree");
         max_leaves = (max_leaves - leaves[len] + 1) * 2 - 1;
@@ -146,7 +158,7 @@ local void read_tree()
         lit_base[len] = base;
         /* And read the literals: */
         for (n = leaves[len]; n > 0; n--) {
-            literal[base++] = (uch)get_byte();
+            literal[base++] = read_byte ();
         }
     }
     leaves[max_len]++; /* Now include the EOB code in the Huffman tree */
@@ -229,14 +241,19 @@ int unpack(in, out)
             /* Code of more than peek_bits bits, we must traverse the tree */
             ulg mask = peek_mask;
             len = peek_bits;
-            do {
+
+            /* Loop as long as peek is a parent node.  */
+            while (peek < parents[len])
+              {
                 len++, mask = (mask<<1)+1;
                 look_bits(peek, len, mask);
-            } while (peek < (unsigned)parents[len]);
-            /* loop as long as peek is a parent node */
+              }
         }
         /* At this point, peek is the next complete code, of len bits */
-        if (peek == eob && len == max_len) break; /* end of file? */
+        if (peek == eob)
+          break; /* End of file.  */
+        if (eob < peek)
+          gzip_error ("invalid compressed data--code out of range");
         put_ubyte(literal[peek+lit_base[len]]);
         Tracev((stderr,"%02d %04x %c\n", len, peek,
                 literal[peek+lit_base[len]]));
